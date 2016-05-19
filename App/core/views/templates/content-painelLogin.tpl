@@ -1,7 +1,14 @@
-<form method="POST" action="">
-	<label for="user">Usuário: </label>
-	<input type="text" name="user" placeholder="Usuário"><br>
-	<label for="pass">Senha: </label>
-	<input type="password" placeholder="Senha" name="pass"><br>
-	<input type="submit" value="Entrar" name="enviar">
-</form>
+<article class="painelLogin">
+	<img src="%%IMAGE_LOGO%%" width="200">
+	<div class="%%CLASS_MSG%%">
+		<span>%%MSG_ERROR%%</span>
+	</div>
+	<form method="POST" action="">
+		<input name="user" type="text" placeholder="Nome de Usuário"><br>
+		<input name="pass" type="password" placeholder="Senha"><br>
+		<select name="clientes">
+			%%CLIENT_OPTIONS%%
+		</select><br><br>
+		<input class="btn-blue" type="submit" name="op" value="Entrar">
+	</form>
+</article>
