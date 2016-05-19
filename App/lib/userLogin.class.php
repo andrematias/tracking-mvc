@@ -5,7 +5,7 @@
 	*/
 	class UserLogin	{
 
-		protected $_logged = false;
+		protected $_logged;
 		
 		/**
 		* Método para ativar o valor das variaeis $_SESSION em todas
@@ -29,6 +29,27 @@
 			if(session_id() != null){
 				$_SESSION = array();
 				session_destroy();
+				header('Location:'.SITEPATH);
 			}
+		}
+
+		/**
+		* Método para codificar uma senha
+		*/
+
+		protected function encode64($password){
+			$password = base64_encode($password);
+			if($password) return $password;
+			return false;
+		}
+
+		/**
+		* Método para decodificar uma senha
+		*/
+
+		protected function decode64($password){
+			$password = base64_decode($password);
+			if($password) return $password;
+			return false;
 		}
 	}
