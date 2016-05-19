@@ -63,9 +63,11 @@ class DbTrack{
 	/**
 	* Método para executar uma Query no Banco de dados instanciado em _conn
 	* @access protected
+	* @param String $sql, a query a ser executada
+	* @param String $sql, os valores para a sql caso existam
 	* @return Obj PDO $sttm or Boolean false
 	*/
-	protected function Query($sql, $values = []){
+	protected function Query($sql, Array $values = []){
 		$sttm = $this->_conn->prepare($sql);
 		$sttm->execute($values);
 		if($sttm){
@@ -77,10 +79,34 @@ class DbTrack{
 	/**
 	* Método para recuperar os dados de uma tabela do banco de dados
 	* @access protected
+	* @param Array $colls, Array com os nomes das colunas
+	* @param Array $whereColluns, Array com os nomes das colunas para a comparação
+	* @param Array $whereValues, Array com os valores para a comparação
 	* @return Array Assoc ou Booleano false
 	*/
-	protected function Select($sql, $values = []){
-		$sttm = $this->Query($sql, $values);
+	protected function Select($tableName, Array $colls = [], Array $whereColluns = [], Array $whereValues = []){
+		if(!empty($colls) && is_array($colls)){
+			$colunas = implode(', ', $colls);
+		}else{
+			$colunas = '*';
+		}
+
+		if(!empty($whereColluns) && is_array($whereColluns)){
+			$where = ' WHERE ';
+			/*
+			* Se existir mais do que um valor de coluna implode com = ? AND 
+			* formando a string e.g.: var1 = ? AND var2 = ?
+			* sendo que o segundo = ? é adicionado na concatenação após o implode
+			*/
+			$whereColl = implode(' = ? AND ', $whereColluns) . ' = ? ';
+
+			$whereCond = $where.$whereColl;
+		}else{
+			$whereCond = '';
+		}
+
+		//Requisição com a Query formada
+		$sttm = $this->Query('SELECT '.$colunas.' FROM '.$tableName.$whereCond, $whereValues);
 		$results = $sttm->fetchAll(PDO::FETCH_ASSOC);
 		if($results){
 			return $results;
