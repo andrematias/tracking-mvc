@@ -5,24 +5,6 @@
 */
 class ModelLogin extends MainModel{
 	/**
-	* Propriedade padrão para inserir dados na tabela de login
-	* @access private
-	*/
-	private $_sqlInsert = 'INSERT INTO user (nome, senha) VALUES(?, ?)';
-
-	/**
-	* Propriedade padrão para update de dados na tabela de login
-	* @access private
-	*/
-	private $_sqlUpdate = 'UPDATE user SET user = ?, senha = ? WHERE id = ?';
-
-	/**
-	* Propriedade padrão para selecionar dados na tabela de login
-	* @access private
-	*/
-	private $_sqlSelect = 'SELECT * FROM user WHERE nome = ? AND senha = ?';
-
-	/**
 	* Propriedade para guardar o nome de usuário
 	* @access private
 	*/
@@ -34,21 +16,29 @@ class ModelLogin extends MainModel{
 	*/
 	private $_senha;
 
+	/**
+	* Propriedade para guardar o cliente rastreado
+	* @access private
+	*/
+	private $_cliente;
 
 	/**
 	* Método para verificar a correspondencia de um usuário na tabela de Login
-	* @param passados via função call_user_func_array no controller de Login
+	* @param Array com usuário e senha.
 	* @access public
 	* @return Booleano.
 	*/
-	public function CheckUser(){
+	public function CheckUser(Array $infoUser){
 		parent::__construct();
-		$users = $this->Select($this->_sqlSelect, func_get_args());
+		$selectValues = array('name', 'password');
+		$whereCond = $selectValues;
+		$users = $this->Select('tr_login', $selectValues, $whereCond, $infoUser);
 		if($users){
 			foreach ($users as $user) {
-				if(($user['nome'] == func_get_arg(0)) &&($user['senha'] == func_get_arg(1))){
-					$this->setUser(func_get_arg(0));
-					$this->setSenha(func_get_arg(1));
+				if(($user['name'] == $infoUser[0]) && ($user['password'] == $infoUser[1])){
+					$this->setUser($_POST['user']);
+					$this->setSenha($_POST['pass']);
+					$this->setCliente($_POST['clientes']);
 					return true;
 				}else{
 					return false;
@@ -57,6 +47,21 @@ class ModelLogin extends MainModel{
 			}
 		}
 	}
+
+	/**
+	* Método para recuperar do banco de dados os clientes rastreados
+	* @return array com os clientes
+	*/
+	public function getTrackingsClient(){
+		parent::__construct();
+		$selectDistinctValues = array('DISTINCT cliente');
+		$clientes = $this->Select('tr_user', $selectDistinctValues);
+		if($clientes) return $clientes;
+
+		return;
+	}
+
+
 
 	/**
 	* Método para definir as variáveis de sessão em $_SESSION
@@ -68,11 +73,12 @@ class ModelLogin extends MainModel{
 	public function setSessionVars(){
 		$_SESSION['user'] = $this->getUser();
 		$_SESSION['pass'] = $this->getSenha();
+		$_SESSION['cliente'] = $this->getCliente();
 		return $_SESSION;
 	}
 
 	/**
-	* Método para configurar o valor do parametro _user
+	* Método para configurar o valor da propriedade _user
 	* @access public
 	*/
 	public function setUser($userName){
@@ -80,7 +86,7 @@ class ModelLogin extends MainModel{
 	}
 
 	/**
-	* Método para configurar o valor do parametro _senha
+	* Método para configurar o valor da propriedade _senha
 	* @access public
 	*/
 	public function setSenha($userSenha){
@@ -88,7 +94,15 @@ class ModelLogin extends MainModel{
 	}
 
 	/**
-	* Método para recuperar o valor do parametro _user
+	* Método para configurar o valor da propriedade _cliente
+	* @access public
+	*/
+	public function setCliente($cliente){
+		$this->_cliente = $cliente;
+	}
+
+	/**
+	* Método para recuperar o valor da propriedade _user
 	* @access public
 	*/
 	public function getUser(){
@@ -96,10 +110,18 @@ class ModelLogin extends MainModel{
 	}
 
 	/**
-	* Método para recuperar o valor do parametro _senha
+	* Método para recuperar o valor da propriedade _senha
 	* @access public
 	*/
 	public function getSenha(){
 		return $this->_senha;
+	}
+
+	/**
+	* Método para recuperar o valor da propriedade _cliente
+	* @access public
+	*/
+	public function getCliente(){
+		return $this->_cliente;
 	}
 }
