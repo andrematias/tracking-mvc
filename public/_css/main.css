@@ -1,0 +1,262 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Lato;
+}
+.btn-blue {
+  background-color: #2d7ded;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  display: inline-block;
+  text-decoration: none;
+  padding: 5px;
+}
+.btn-red {
+  background-color: #d43031;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  display: inline-block;
+  text-decoration: none;
+  padding: 5px;
+}
+.btn-green {
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  display: inline-block;
+  text-decoration: none;
+  padding: 5px;
+}
+.painelLogin {
+  background: #E0E0E0;
+  width: 400px;
+  max-height: 500px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 10px 9px 20px #ccc;
+  padding: 30px 10px 0px 10px;
+}
+.painelLogin input[type="text"],
+.painelLogin input[type="password"],
+.painelLogin select {
+  width: 70%;
+  height: 30px;
+  margin: 5px;
+  border-radius: 5px;
+  border: solid 1px #ccc;
+  padding-left: 10px;
+}
+.painelLogin input[type="submit"] {
+  background-color: #2d7ded;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  display: inline-block;
+  text-decoration: none;
+  padding: 5px;
+  width: 70%;
+  height: 30px;
+}
+.painelLogin .error {
+  margin: 15px 0px 15px 0px;
+  display: inline-block;
+  background-color: #F54E4E;
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+  line-height: 40px;
+}
+.container {
+  margin: 0 auto;
+  width: 80%;
+  display: table;
+}
+.container .help {
+  background: #EBEAAB;
+  padding: 0px 5px;
+  display: inline-block;
+}
+.container .info-success {
+  margin: 15px 0px 15px 0px;
+  display: inline-block;
+  background-color: #3EA859;
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+  line-height: 40px;
+}
+.container .info-error {
+  margin: 15px 0px 15px 0px;
+  display: inline-block;
+  background-color: #F54E4E;
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+  line-height: 40px;
+}
+.container header > nav a {
+  color: black;
+  font-size: 20px;
+  text-decoration: none;
+}
+.container header > nav a:hover {
+  color: red;
+}
+.container header > nav ul.user {
+  list-style: none;
+  width: 200px;
+  float: left;
+  padding: 10px;
+}
+.container header > nav ul.user li {
+  position: relative;
+}
+.container header > nav ul.user li span#avatar img {
+  vertical-align: middle;
+  width: 30px;
+}
+.container header > nav ul.user div.sub_menu {
+  display: none;
+  width: 150px;
+  padding: 30px 10px 30px 10px;
+  text-align: center;
+  border: solid 1px #ccc;
+  background-color: white;
+  border-radius: 10px;
+  position: absolute;
+  top: 30px;
+  left: 60px;
+  margin-top: 10px;
+}
+.container header > nav ul.user div.sub_menu:before {
+  content: " ";
+  display: inline-block;
+  border-right: 10px transparent solid;
+  border-left: 10px transparent solid;
+  border-bottom: 10px solid #ccc;
+  position: absolute;
+  top: -10px;
+  left: 10px;
+}
+.container header > nav ul.user div.sub_menu ul {
+  list-style: none;
+  padding: 0px;
+}
+.container header > nav ul.user div.sub_menu ul li {
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0px 10px 0px;
+}
+.container header > nav ul.user li:hover div.sub_menu {
+  display: block;
+}
+.container header > nav ul.conf {
+  float: right;
+  list-style: none;
+  padding: 10px;
+}
+.container header > nav ul.conf a {
+  margin-left: 60px;
+}
+.container hr {
+  border: 1px dashed #ccc;
+  clear: both;
+}
+.container .body {
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+}
+.container .body .opt_config {
+  border-bottom: 1px solid #ccc;
+}
+.container .body .opt_config a {
+  text-decoration: none;
+  display: inline-block;
+  padding: 10px;
+  color: black;
+}
+.container .body .opt_config a:hover {
+  font-weight: bold;
+}
+.container .body input[type="submit"] {
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: 100px;
+  height: 30px;
+}
+.container .body input[type="submit"].btn-blue {
+  background-color: #2d7ded;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: 100px;
+  height: 30px;
+}
+.container .body select {
+  width: 150px;
+  height: 30px;
+}
+.container .body input[type="text"],
+.container .body input[type="number"],
+.container .body input[type="password"] {
+  width: 150px;
+  height: 25px;
+}
+.container .body button {
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: 100px;
+  height: 30px;
+}
+.container .body .periodo {
+  float: left;
+}
+.container .body .export {
+  float: right;
+}
+.container .body .tr_dados {
+  clear: both;
+  padding-top: 50px;
+}
+.container .body .tr_dados table {
+  width: 100%;
+  margin-bottom: 30px;
+  border-collapse: collapse;
+  word-break: break-word;
+}
+.container .body .tr_dados table th {
+  height: 40px;
+  background-color: #2d7ded;
+  color: white;
+}
+.container .body .tr_dados table th,
+.container .body .tr_dados table td {
+  border-bottom: solid 1px #cccccc;
+}
+.container .body .tr_dados table td {
+  padding: 10px;
+}
+.container footer {
+  margin-top: 100px;
+  text-align: center;
+}
