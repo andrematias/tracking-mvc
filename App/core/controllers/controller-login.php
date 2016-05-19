@@ -40,21 +40,27 @@ class Login extends MainController{
 			$this->_modelLogin = new ModelLogin();
 
 			//Verificar se existe o usuário 
-			// $this->_modelLogin->CheckLogin();
-			@$this->_params = [$_POST['user'], $_POST['pass']];
-			$this->_logged = call_user_func_array([$this->_modelLogin, 'CheckUser'], @$this->_params);
+			if(isset($_POST['op']) && !empty($_POST['user']) && !empty($_POST['pass'])){
+				@$this->_params = [$_POST['user'], parent::encode64($_POST['pass'])];
+				$this->_logged = $this->_modelLogin->CheckUser($this->_params);
+			}
+			// $_REQUEST['error'] = ((bool)$check == false) ? TRUE : false;
 
-			//definir as variaveis de sessão
+			//Envia os clientes rastreados para as opções no painel de login
+			$clientes = $this->_modelLogin->getTrackingsClient();
+
+			//Mostra o painel de Login ao usuário
+			$this->_viewPainel->ShowPainel($clientes);
+
+
+			//definir as variaveis de sessão e enviar o usuário para home
 			if($this->_logged == true){
 				$this->_modelLogin->setSessionVars();
-			}
-
-			//Redireciona o usuário para a página após o login
-			if(parent::CheckSession() == true){
 				header('Location:'.SITEPATH);
 			}
+
 		}else{
-			include_once(TEMPLATES.$this->_404);
+			header('Location:'.SITEPATH.'/pageNotFound');
 		}
 	}
 }
