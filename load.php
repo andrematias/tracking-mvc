@@ -11,7 +11,9 @@
 
 	if(!function_exists('__load')){
 		function __load($calssName){
-			$file_path = strtolower(ROOT.'/App/lib/'.$calssName.'.class.php');
+			$file_path = strtolower(ROOT.'/app/lib/'.$calssName.'.class.php');
+			$file_path = str_replace('/', DIRECTORY_SEPARATOR, $file_path);
+
 			if(file_exists($file_path)){
 				require_once($file_path);
 			}else{

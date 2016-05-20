@@ -1,7 +1,7 @@
 <?php
 //Diretórios
 	define('ROOT', dirname(__FILE__));
-	define('TEMPLATES', ROOT.'/App/core/views/templates/');
+	define('TEMPLATES', ROOT.'/app/core/views/templates/');
 
 //SITEPATH
 	define('PROTOCOL', (isset($_SERVER['HTTPS'])) ? 'https://' : 'http://');
@@ -15,7 +15,8 @@
 
 // Dados de acesso ao banco de dados.
 	define('DB_HOSTNAME', '127.0.0.1');
+	define('DB_NAME', 'tracking');
 	define('DB_USER', 'root');
 	define('DB_DRIVER', 'mysql');
-	define('DB_PASS', '');
+	define('DB_PASS', '0406');
 	define('DB_CHARSET', 'charset=utf8');

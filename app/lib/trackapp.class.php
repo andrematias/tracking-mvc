@@ -2,7 +2,7 @@
 /**
 * Classe principal para carregar a aplicação.
 */
-class TrackApp{
+class Trackapp{
 	public $_controller = 'home';
 
 	public $_method 	= 'index';
@@ -25,15 +25,16 @@ class TrackApp{
 		* de controller com o prefixo e nome, caso não exista instancia uma 
 		* classe com o nome padrão home.
 		*/
-		if(file_exists(ROOT.'/App/core/controllers/controller-'.$routes[0].'.php')){
+
+		if(file_exists(ROOT.'/app/core/controllers/controller-'.$routes[0].'.php')){
 			$this->_controller = $routes[0];
-			require_once(ROOT.'/App/core/controllers/controller-'.$routes[0].'.php');
+			require_once(ROOT.'/app/core/controllers/controller-'.$routes[0].'.php');
 			unset($routes[0]);
 		}else{
-			if(file_exists(ROOT.'/App/core/controllers/controller-home.php')){
-				require_once(ROOT.'/App/core/controllers/controller-home.php');
+			if(file_exists(ROOT.'/app/core/controllers/controller-home.php')){
+				require_once(ROOT.'/app/core/controllers/controller-home.php');
 			}else{
-				require_once(ROOT.'/App/core/controllers/controller-pageNotFound.php');
+				require_once(ROOT.'/app/core/controllers/controller-pageNotFound.php');
 				$this->_controller = $this->_404;
 			}
 		}

@@ -19,8 +19,8 @@
 			$this->redirect();
 
 			//Verifica e chama a view da home
-			if(file_exists(ROOT.'/App/core/views/view-home.php')){
-				require_once(ROOT.'/App/core/views/view-home.php');
+			if(file_exists(ROOT.'/app/core/views/view-home.php')){
+				require_once(ROOT.'/app/core/views/view-home.php');
 				$this->_home_view = new ViewHome();
 				$this->_home_view->ShowHome();
 			}else{

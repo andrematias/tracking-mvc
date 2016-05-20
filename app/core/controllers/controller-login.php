@@ -33,9 +33,9 @@ class Login extends MainController{
 	* e redirecionadores
 	*/
 	public function Index(){
-		if(file_exists(ROOT.'/App/core/views/view-painel.php')){
-			require_once(ROOT.'/App/core/views/view-painel.php');
-			require_once(ROOT.'/App/core/models/model-painelLogin.php');
+		if(file_exists(ROOT.'/app/core/views/view-painel.php')){
+			require_once(ROOT.'/app/core/views/view-painel.php');
+			require_once(ROOT.'/app/core/models/model-painelLogin.php');
 			$this->_viewPainel = new ViewLogin();
 			$this->_modelLogin = new ModelLogin();
 
