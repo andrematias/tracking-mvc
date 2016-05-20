@@ -6,7 +6,7 @@ class ViewLogin{
 
 	public $_title = 'Painel de Login';
 	
-	function ShowPainel(Array $clientes){
+	function ShowPainel($clientes){
 		//Carrega os templates
 		$header = file_get_contents(TEMPLATES.'header-painelLogin.tpl');
 		$content = file_get_contents(TEMPLATES.'content-painelLogin.tpl');
