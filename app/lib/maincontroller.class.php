@@ -6,6 +6,13 @@
 
 		function __construct(){
 			parent::InitSession();
+			$go = (isset($_REQUEST['go'])) ? $_REQUEST['go'] : NULL;
+
+			switch ($go) {
+				case 'loggout':
+					parent::SessionDestroy();
+					break;				
+			}
 		}
 
 		/*Checar se existe uma sessão logada*/
