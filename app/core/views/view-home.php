@@ -2,7 +2,7 @@
 	/**
 	* 
 	*/
-	class ViewHome{
+	class ViewHome extends MainView{
 
 		public $_title;
 		
@@ -21,10 +21,10 @@
 			$header = str_replace('%%LINK_CSS_MAIN%%', PUBLIC_PATH.'_css/main.css', $header);
 
 			//Alterando tags dos links no menu
-			$nav = str_replace('%%LINK_PERFIL%%', '?go=perfil', $nav);
+			$nav = str_replace('%%LINK_PERFIL%%', SITEPATH.'/perfil', $nav);
 			$nav = str_replace('%%LINK_LOGGOUT%%', '?go=loggout', $nav);
-			$nav = str_replace('%%LINK_SESSOES%%', '?go=home', $nav);
-			$nav = str_replace('%%LINK_CONFIGURACOES%%', '?go=configuracoes', $nav);
+			$nav = str_replace('%%LINK_SESSOES%%', SITEPATH, $nav);
+			$nav = str_replace('%%LINK_CONFIGURACOES%%', SITEPATH.'/configuracoes', $nav);
 
 			//Alterando o nome do usuário
 			$nav = str_replace('%%USER_NAME%%', $_SESSION['user'], $nav);
