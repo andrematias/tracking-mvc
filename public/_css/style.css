@@ -1,0 +1,120 @@
+/* CORES */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: lato;
+  width: 100%;
+  height: 100%;
+}
+.conteiner {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  /*Estilo do avatar e nome do usuário*/
+}
+.conteiner header.cabecalho {
+  background: #d43031;
+  display: flex;
+  flex-flow: row wrap;
+  padding: 5px 15px 5px 15px;
+  justify-content: space-between;
+  align-items: center;
+}
+.conteiner .menu_bar ul {
+  list-style: none;
+  display: flex;
+  flex-flow: row wrap;
+}
+.conteiner .menu_bar ul a {
+  text-decoration: none;
+  padding: 1em;
+  color: white;
+  font-family: lato;
+}
+.conteiner .menu_bar ul a:hover {
+  background: #ad2425;
+  font-weight: bold;
+}
+.conteiner .user_avatar {
+  display: flex;
+  align-items: center;
+}
+.conteiner .user_avatar a {
+  padding: 10px;
+  font-family: Lato;
+  font-weight: bold;
+  font-size: 15px;
+  text-decoration: none;
+  color: white;
+}
+.conteiner .user_avatar a:nth-child(3) {
+  text-decoration: underline;
+  font-weight: normal;
+}
+.conteiner .user_avatar a:nth-child(4) {
+  text-decoration: underline;
+  font-weight: normal;
+}
+.conteiner .user_avatar span {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  border: solid 2px #fff;
+  background: url('/public/_imagens/logo.png') no-repeat #ffffff;
+  background-size: 100%;
+}
+.conteiner .body {
+  display: flex;
+  height: 100%;
+}
+.conteiner .body .cabecalho_content {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dashed #ccc;
+  padding: 5px 10px;
+  width: 100%;
+}
+.conteiner .body .cabecalho_content input[type="date"] {
+  width: 130px;
+}
+.conteiner .body .cabecalho_content input[type="submit"] {
+  background: #69d2e7;
+  border: none;
+  padding: 4px 5px;
+  border-radius: 5px;
+}
+.conteiner .body aside.sidebar {
+  border-right: 1px solid #ccc;
+  width: 20%;
+}
+.conteiner .body aside.sidebar ul {
+  list-style: none;
+  padding-left: 10px;
+}
+.conteiner .body aside.sidebar ul li {
+  padding: 5px 5px;
+}
+.conteiner .body aside.sidebar ul li a {
+  text-decoration: none;
+  color: black;
+}
+.conteiner .body .content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+}
+.conteiner .body .content .meta_infos {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  text-align: right;
+  margin: 10px 0px 30px 0px;
+}
+.conteiner .body .content .meta_infos .meta {
+  margin: 0px 30px 0px 30px;
+  padding: 0px 15px 5px 15px;
+  border-right: 1px solid #ccc;
+}
