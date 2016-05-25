@@ -15,7 +15,7 @@ class ViewLogin{
 		//Atribui o titulo a página
 		$header = str_replace('%%TITLE%%', $this->_title, $header);
 		//Inclui o link do css
-		$header = str_replace('%%LINK_CSS_MAIN%%', PUBLIC_PATH.'_css/main.css', $header);
+		$header = str_replace('%%LINK_CSS_MAIN%%', PUBLIC_PATH.'_css/style.css', $header);
 
 		//Renderiza o cabeçalho do painel
 		echo $header;
