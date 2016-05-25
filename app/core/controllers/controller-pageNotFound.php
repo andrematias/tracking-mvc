@@ -5,6 +5,7 @@
 	class pageNotFound extends MainController{
 		
 		function index(){
-			echo 'pageNoteFound';
+			require_once(ROOT.'/app/core/views/view-pagenotfound.php');
+			$notfound = new NotFound();
 		}
 	}
