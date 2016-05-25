@@ -28,11 +28,11 @@
 		function showMessages(){
 			global $msgPool;
 			if(is_array($msgPool) && !empty($msgPool)){
-				foreach ($msgPool as $msg) {
-					echo '<div class="container">
-							<div class="'.$msg['type'].'">'
+				foreach ($msgPool as $key => $msg) {
+					echo '<div class="conteiner">
+							<div id="type_message" class="'.$msg['type'].'">'
 							.$msg['msg'].
-							'<span>x</span>
+							'<span id="close">x</span>
 							</div>
 						</div>';
 				}
