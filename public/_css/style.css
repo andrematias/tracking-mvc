@@ -1,4 +1,5 @@
-/* CORES */
+/* Definição das cores da paleta do projeto */
+/* Resetando as propriedades do html e body e adicionando novos padrões */
 html,
 body {
   margin: 0;
@@ -7,11 +8,120 @@ body {
   width: 100%;
   height: 100%;
 }
+/* Cores de botões padrão no sistema */
+.btn-blue {
+  background-color: #009ee0;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  display: inline-block;
+  text-decoration: none;
+  padding: 5px;
+}
+.btn-red {
+  background-color: #fd5050;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  display: inline-block;
+  text-decoration: none;
+  padding: 5px;
+}
+.btn-green {
+  background-color: #01b46e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  display: inline-block;
+  text-decoration: none;
+  padding: 5px;
+}
+/* Estilo para o painel de Login do sistema */
+.painelLogin {
+  background: #E0E0E0;
+  width: 400px;
+  max-height: 500px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 10px 9px 20px #ccc;
+  padding: 30px 10px 0px 10px;
+}
+.painelLogin input[type="text"],
+.painelLogin input[type="password"],
+.painelLogin select {
+  width: 70%;
+  height: 30px;
+  margin: 5px;
+  border-radius: 5px;
+  border: solid 1px #ccc;
+  padding-left: 10px;
+}
+.painelLogin input[type="submit"] {
+  width: 70%;
+  height: 30px;
+  background-color: #009ee0;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  display: inline-block;
+  text-decoration: none;
+  padding: 5px;
+}
+/* Estilo para a classe que abriga todos os conteúdos do sistema */
 .conteiner {
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  /*Estilo do avatar e nome do usuário*/
+  /* Estilo para o cabeçalho e menu */
+  /* Estilo para o corpo do sistema */
+}
+.conteiner .success {
+  background: #01b46e;
+  text-align: center;
+  padding: 12px;
+  margin: 5px 0px;
+  color: white;
+  border-radius: 5px;
+  border: 2px solid #01814f;
+}
+.conteiner .success span {
+  background: #01814f;
+  float: right;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  cursor: pointer;
+  color: white;
+  font-size: 14px;
+  line-height: 19px;
+}
+.conteiner .error {
+  background: #fd5050;
+  text-align: center;
+  padding: 12px;
+  margin: 5px 0px;
+  color: white;
+  border-radius: 5px;
+  border: 2px solid #fc1e1e;
+}
+.conteiner .error span {
+  background: #fc1e1e;
+  float: right;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  cursor: pointer;
+  color: white;
+  font-size: 14px;
+  line-height: 19px;
 }
 .conteiner header.cabecalho {
   background: #d43031;
@@ -67,6 +177,7 @@ body {
 .conteiner .body {
   display: flex;
   height: 100%;
+  /* Estilo para a barra lateral do sistema */
 }
 .conteiner .body .cabecalho_content {
   display: flex;
@@ -79,10 +190,11 @@ body {
   width: 130px;
 }
 .conteiner .body .cabecalho_content input[type="submit"] {
-  background: #69d2e7;
+  background: #009ee0;
   border: none;
   padding: 4px 5px;
   border-radius: 5px;
+  color: white;
 }
 .conteiner .body aside.sidebar {
   border-right: 1px solid #ccc;
@@ -105,6 +217,9 @@ body {
   align-items: center;
   width: 100%;
   padding: 10px;
+}
+.conteiner .body .content .grafico {
+  width: 100%;
 }
 .conteiner .body .content .meta_infos {
   display: flex;
