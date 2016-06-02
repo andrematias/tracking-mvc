@@ -19,14 +19,14 @@
 	* quando instanciado uma classe.
 	*/
 	if(!function_exists('__load')){
-		function __load($calssName){
-			$file_path = strtolower(ROOT.'/app/lib/'.$calssName.'.class.php');
-			$file_path = str_replace('/', DIRECTORY_SEPARATOR, $file_path);
+		function __load($className){
+			$className = str_replace('\\', DIRECTORY_SEPARATOR, $className);
+			$file_path = strtolower(ROOT.$className.'.class.php');
 
 			if(file_exists($file_path)){
 				require_once($file_path);
 			}else{
-				echo 'Infelizmente a classe '.$calssName.' não existe.';
+				echo 'Infelizmente a classe '.$className.' não existe.';
 				exit();
 			}
 		}
