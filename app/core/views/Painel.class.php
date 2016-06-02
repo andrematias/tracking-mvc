@@ -1,8 +1,18 @@
 <?php
 /**
-* 
+* View do Painel de Login
+* @author: André Matias
+* @version: 0.1
+* @link github.com/Andrematias
+* @link andrersmatias@gmail.com
 */
-class ViewLogin{
+
+namespace App\Core\Views;
+
+//Use classes
+use App\Lib\Main\MainView;
+
+class Painel extends MainView{
 
 	public $_title = 'Painel de Login';
 	

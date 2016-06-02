@@ -6,6 +6,13 @@
 * @link github.com/Andrematias
 * @link andrersmatias@gmail.com
 */
+namespace App\Core\Controllers;
+
+//Use classes
+use App\Lib\Main\MainController as MainController;
+use App\Core\Views\Painel AS ViewPainel;
+use App\Core\Models\Painel AS ModelPainel;
+
 class Login extends MainController{
 
 	/**
@@ -33,18 +40,23 @@ class Login extends MainController{
 	* e redirecionadores
 	*/
 	public function Index(){
-		if(file_exists(ROOT.'/app/core/views/view-painel.php')){
-			require_once(ROOT.'/app/core/views/view-painel.php');
-			require_once(ROOT.'/app/core/models/model-painelLogin.php');
-			$this->_viewPainel = new ViewLogin();
-			$this->_modelLogin = new ModelLogin();
+		//Verifica se o usuário já esta logado.
+		MainController::toHome();
+		
+		if(file_exists(ROOT.'app/core/views/Painel.class.php')){
+			$this->_viewPainel = new ViewPainel();
+			$this->_modelLogin = new ModelPainel();
 
 			//Verificar se existe o usuário 
 			if(isset($_POST['op']) && !empty($_POST['user']) && !empty($_POST['pass'])){
-				@$this->_params = [$_POST['user'], parent::encode64($_POST['pass'])];
+				/*
+				* Descomentar a linha abaixo para ativar a encriptação de senha
+				* e comentar a próxima linha
+				*/
+				// @$this->_params = [$_POST['user'], parent::encode64($_POST['pass'])];
+				@$this->_params = [$_POST['user'], $_POST['pass']];
 				$this->_logged = $this->_modelLogin->CheckUser($this->_params);
 			}
-			// $_REQUEST['error'] = ((bool)$check == false) ? TRUE : false;
 
 			//Envia os clientes rastreados para as opções no painel de login
 			$clientes = $this->_modelLogin->getTrackingsClient();
@@ -60,7 +72,7 @@ class Login extends MainController{
 			}
 
 		}else{
-			header('Location:'.SITEPATH.'/pageNotFound');
+			header('Location:'.SITEPATH.'/NotFound');
 		}
 	}
 }

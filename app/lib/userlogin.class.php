@@ -1,8 +1,15 @@
 <?php
-	/**
-	* Configura novas variaveis de sessão, inicia sessões, finaliza sessões, 
-	* verifica se existe alguma sessão iniciada, gerencia cookies.
-	*/
+/**
+* Configura novas variaveis de sessão, inicia sessões, finaliza sessões, 
+* verifica se existe alguma sessão iniciada, gerencia cookies.
+* @author: André Matias
+* @version: 0.1
+* @link github.com/Andrematias
+* @link andrersmatias@gmail.com
+*/
+
+	namespace App\Lib;
+	
 	class UserLogin	{
 
 		protected $_logged;

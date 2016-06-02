@@ -1,15 +1,25 @@
 <?php
 /**
 * Classe principal para carregar a aplicação.
+* @author: André Matias
+* @version: 0.1
+* @link github.com/Andrematias
+* @link andrersmatias@gmail.com
 */
+
+namespace App\Lib;
+
+//Use classes
+use App\Core\Controllers\Login;
+
 class Trackapp{
-	public $_controller = 'home';
+	public $_controller = 'App\Core\Controllers\Visualizacoes';
 
 	public $_method 	= 'index';
 
 	public $_param;
 
-	public $_404 = 'pageNotFound';
+	public $_404 = 'App\Core\Controllers\NotFound';
 
 
 	/**
@@ -25,16 +35,13 @@ class Trackapp{
 		* de controller com o prefixo e nome, caso não exista instancia uma 
 		* classe com o nome padrão home.
 		*/
-
-		if(file_exists(ROOT.'/app/core/controllers/controller-'.$routes[0].'.php')){
-			$this->_controller = $routes[0];
-			require_once(ROOT.'/app/core/controllers/controller-'.$routes[0].'.php');
+		if(file_exists(ROOT.'/app/core/controllers/'.$routes[0].'.class.php')){
+			$this->_controller = "App\Core\Controllers\\".$routes[0];
 			unset($routes[0]);
 		}else{
-			if(file_exists(ROOT.'/app/core/controllers/controller-home.php')){
-				require_once(ROOT.'/app/core/controllers/controller-home.php');
+			if(file_exists(ROOT.'/app/core/controllers/Visualizacoes.class.php')){
+				$this->_controller = "App\Core\Controllers\Visualizacoes";
 			}else{
-				require_once(ROOT.'/app/core/controllers/controller-pageNotFound.php');
 				$this->_controller = $this->_404;
 			}
 		}

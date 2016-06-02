@@ -6,7 +6,7 @@
 		<input type="date" name="date_end">
 		<input type="submit" name="date_go" value="Selecionar">
 	</form>
-	<span><strong>Cliente: </strong>http://blogadhesivoindustrial.com</span>
+	<span><strong>Cliente: </strong>%%CLIENTE%%</span>
 </header>
 
 <h3>Média de visualizações no período</h3>
@@ -39,10 +39,7 @@ $(function () {
                 enableMouseTracking: true
             }
         },
-        series: [{
-            name: '%%NOME_SERIE%%',
-            data: [%%DATA_VALUES%%]
-        }]
+        series: %%SERIES%%
     });
 });
 		</script>

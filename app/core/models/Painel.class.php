@@ -2,8 +2,18 @@
 /**
 * Classe para tratar as informações do painel de login e definir as variaveis 
 * de sessão em $_SESSION
+* @author: André Matias
+* @version: 0.1
+* @link github.com/Andrematias
+* @link andrersmatias@gmail.com
 */
-class ModelLogin extends MainModel{
+
+namespace App\Core\Models;
+
+//Use classes
+use App\Lib\Main\MainModel;
+
+class Painel extends MainModel{
 	/**
 	* Propriedade para guardar o nome de usuário
 	* @access private
@@ -30,9 +40,7 @@ class ModelLogin extends MainModel{
 	*/
 	public function CheckUser(Array $infoUser){
 		parent::__construct();
-		$selectValues = array('name', 'password');
-		$whereCond = $selectValues;
-		$users = $this->Select('tr_login', $selectValues, $whereCond, $infoUser);
+		$users = $this->Select('tr_login', ['name', 'password'], 'WHERE name = ? AND password = ?', $infoUser);
 		if($users){
 			foreach ($users as $user) {
 				if(($user['name'] == $infoUser[0]) && ($user['password'] == $infoUser[1])){
@@ -54,11 +62,7 @@ class ModelLogin extends MainModel{
 	*/
 	public function getTrackingsClient(){
 		parent::__construct();
-		$selectDistinctValues = array('DISTINCT cliente');
-		$clientes = $this->Select('tr_user', $selectDistinctValues);
-		if($clientes) return $clientes;
-
-		return;
+		return $this->Select('tr_user', ['DISTINCT cliente']);
 	}
 
 

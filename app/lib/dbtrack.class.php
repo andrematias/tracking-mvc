@@ -6,6 +6,11 @@
 * @link github.com/Andrematias
 * @link andrersmatias@gmail.com
 */
+namespace App\Lib;
+
+//Use classes
+use \PDO;
+
 class DbTrack{
 	private $_db_name;
 	private $_db_host;
@@ -67,7 +72,7 @@ class DbTrack{
 	* @param String $sql, os valores para a sql caso existam
 	* @return Obj PDO $sttm or Boolean false
 	*/
-	protected function Query($sql, Array $values = []){
+	protected function Query($sql, $values = NULL){
 		$sttm = $this->_conn->prepare($sql);
 		$sttm->execute($values);
 		if($sttm){
@@ -80,33 +85,19 @@ class DbTrack{
 	* Método para recuperar os dados de uma tabela do banco de dados
 	* @access protected
 	* @param Array $colls, Array com os nomes das colunas
-	* @param Array $whereColluns, Array com os nomes das colunas para a comparação
-	* @param Array $whereValues, Array com os valores para a comparação
+	* @param String $Cond, String com a condição
+	* @param Array $CondValues, Array com os valores para a condição
 	* @return Array Assoc ou Booleano false
 	*/
-	protected function Select($tableName, Array $colls = [], Array $whereColluns = [], Array $whereValues = []){
+	protected function Select($tableName, Array $colls = [], $Cond = NULL, Array $CondValues = NULL){
 		if(!empty($colls) && is_array($colls)){
 			$colunas = implode(', ', $colls);
 		}else{
 			$colunas = '*';
 		}
 
-		if(!empty($whereColluns) && is_array($whereColluns)){
-			$where = ' WHERE ';
-			/*
-			* Se existir mais do que um valor de coluna implode com = ? AND 
-			* formando a string e.g.: var1 = ? AND var2 = ?
-			* sendo que o segundo = ? é adicionado na concatenação após o implode
-			*/
-			$whereColl = implode(' = ? AND ', $whereColluns) . ' = ? ';
-
-			$whereCond = $where.$whereColl;
-		}else{
-			$whereCond = '';
-		}
-
 		//Requisição com a Query formada
-		$sttm = $this->Query('SELECT '.$colunas.' FROM '.$tableName.$whereCond, $whereValues);
+		$sttm = $this->Query('SELECT '.$colunas.' FROM '.$tableName.' '.$Cond.' ', $CondValues);
 		$results = $sttm->fetchAll(PDO::FETCH_ASSOC);
 		if($results){
 			return $results;

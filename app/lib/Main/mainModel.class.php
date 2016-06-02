@@ -1,7 +1,15 @@
 <?php
 /**
-* 
+* Classe padrão para as atividades das Models
+* @author: André Matias
+* @version: 0.1
+* @link github.com/Andrematias
+* @link andrersmatias@gmail.com
 */
+
+namespace App\Lib\Main;
+use App\Lib\DbTrack as DbTrack;
+
 class MainModel extends DbTrack{
 	protected $_db;
 
