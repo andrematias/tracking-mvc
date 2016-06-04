@@ -74,7 +74,6 @@ body {
 }
 /* Estilo para a classe que abriga todos os conteúdos do sistema */
 .conteiner {
-  height: 100%;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -225,7 +224,6 @@ body {
   flex-wrap: wrap;
   flex-direction: row;
   text-align: right;
-  margin: 10px 0px 30px 0px;
 }
 .conteiner .body .content .meta_infos .meta {
   margin: 0px 30px 0px 30px;
