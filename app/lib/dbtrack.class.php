@@ -89,7 +89,14 @@ class DbTrack{
 	* @param Array $CondValues, Array com os valores para a condição
 	* @return Array Assoc ou Booleano false
 	*/
-	protected function Select($tableName, Array $colls = [], $Cond = NULL, Array $CondValues = NULL){
+	protected function Select
+	(
+		$tableName, 
+		Array $colls = [], 
+		$cond = NULL, 
+		Array $condValues = NULL
+	)
+	{
 		if(!empty($colls) && is_array($colls)){
 			$colunas = implode(', ', $colls);
 		}else{
@@ -97,10 +104,61 @@ class DbTrack{
 		}
 
 		//Requisição com a Query formada
-		$sttm = $this->Query('SELECT '.$colunas.' FROM '.$tableName.' '.$Cond.' ', $CondValues);
+		$sttm = $this->Query('SELECT '.$colunas.' FROM '.$tableName.' '.$cond.' ', $condValues);
 		$results = $sttm->fetchAll(PDO::FETCH_ASSOC);
 		if($results){
 			return $results;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * Método para alterar dados no Banco de dados
+	 * @param string tableName, string com o nome da tabela ou JOIN de tabelas
+	 * @param array updatesColumns. array com a coluna e o novo valor 
+	 * @param string cond, string com a condição e bindName
+	 * @param array condValues, array com os bindValues da condição
+	 * @return bool
+	 */
+
+	protected function Update
+	(
+		$tableName, 
+		Array $updatesColumns,
+		$cond,
+		Array $condValues = NULL
+	)
+	{
+		if(!empty($updatesColumns) && is_array($updatesColumns)){
+			$updates = implode(', ', $updatesColumns);
+		}
+		$sttm = $this->Query('UPDATE '.$tableName.' SET '.$updates.' '.$cond, $condValues);
+
+		if($sttm){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * Método para deletar linhas no Banco de Dados
+	 * @param string tableName, string com o nome da tabela
+	 * @param string cond, string com a condição SQL para deletar a linha
+	 * @param Array $valuesCond, array com os bindValues para a condição
+	 * @return bool
+	 */
+	protected function Delete
+	(
+		$tableName, 
+		$cond, 
+		Array $valuesCond = NULL
+	)
+	{
+		$sttm = $this->Query('DELETE FROM '.$tableName.' '.$cond, $valuesCond);
+		if($sttm){
+			return true;
 		}else{
 			return false;
 		}
