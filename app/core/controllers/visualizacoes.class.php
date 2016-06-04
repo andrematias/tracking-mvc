@@ -23,11 +23,11 @@
 			MainController::toLogin();
 
 			//Verifica e chama a view da home
-			if(file_exists(ROOT.'/app/core/views/Visualizacoes.class.php')){
+			if(file_exists(ROOT.'/app/core/views/visualizacoes.class.php')){
 				$this->_view = new VisualizacoesView;
 				$this->_view->VisualizacoesPorPeriodo();
 			}else{
-				header('Location:'.SITEPATH.'/pageNotFound');
+				header('Location:'.SITEPATH.'/notfound');
 			}
 		}
 
@@ -36,11 +36,11 @@
 			MainController::toLogin();
 
 			//Verifica e chama a view da home
-			if(file_exists(ROOT.'/app/core/views/Visualizacoes.class.php')){
+			if(file_exists(ROOT.'/app/core/views/visualizacoes.class.php')){
 				$this->_view = new VisualizacoesView;
 				$this->_view->VisualizacoesPorAssunto();
 			}else{
-				header('Location:'.SITEPATH.'/pageNotFound');
+				header('Location:'.SITEPATH.'/notfound');
 			}
 		}
 	}

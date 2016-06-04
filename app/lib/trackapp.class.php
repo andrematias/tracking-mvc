@@ -38,12 +38,12 @@ class Trackapp{
 		if(file_exists(ROOT.'/app/core/controllers/'.$routes[0].'.class.php')){
 			$this->_controller = "App\Core\Controllers\\".$routes[0];
 			unset($routes[0]);
-		}else{
-			if(file_exists(ROOT.'/app/core/controllers/Visualizacoes.class.php')){
-				$this->_controller = "App\Core\Controllers\Visualizacoes";
-			}else{
-				$this->_controller = $this->_404;
-			}
+		 }else{
+		 	if(file_exists(ROOT.'/app/core/controllers/visualizacoes.class.php')){
+		 		$this->_controller = "App\Core\Controllers\Visualizacoes";
+		 	}else{
+		 		$this->_controller = $this->_404;
+		 	}
 		}
 		$this->_controller = new $this->_controller;
 

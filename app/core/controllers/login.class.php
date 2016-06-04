@@ -29,11 +29,6 @@ class Login extends MainController{
 
 	public $_params = [];
 
-	/**
-	* _404 propriedade para chamar a página em caso de alguma falha
-	*/
-	public $_404 = '_includes/404.html';
-
 
 	/**
 	* Método padrão da classe implementa a view do painel, modelagem dos dados
@@ -43,7 +38,7 @@ class Login extends MainController{
 		//Verifica se o usuário já esta logado.
 		MainController::toHome();
 		
-		if(file_exists(ROOT.'app/core/views/Painel.class.php')){
+		if(file_exists(ROOT.'app/core/views/painel.class.php')){
 			$this->_viewPainel = new ViewPainel();
 			$this->_modelLogin = new ModelPainel();
 
@@ -53,7 +48,7 @@ class Login extends MainController{
 				* Descomentar a linha abaixo para ativar a encriptação de senha
 				* e comentar a próxima linha
 				*/
-				// @$this->_params = [$_POST['user'], parent::encode64($_POST['pass'])];
+				//@$this->_params = [$_POST['user'], parent::encode64($_POST['pass'])];
 				@$this->_params = [$_POST['user'], $_POST['pass']];
 				$this->_logged = $this->_modelLogin->CheckUser($this->_params);
 			}
@@ -72,7 +67,7 @@ class Login extends MainController{
 			}
 
 		}else{
-			header('Location:'.SITEPATH.'/NotFound');
+			header('Location:'.SITEPATH.'/notfound');
 		}
 	}
 }

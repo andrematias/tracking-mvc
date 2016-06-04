@@ -38,12 +38,23 @@ class Painel extends MainModel{
 	* @access public
 	* @return Booleano.
 	*/
-	public function CheckUser(Array $infoUser){
+	public function CheckUser(Array $infoUser)
+	{
 		parent::__construct();
-		$users = $this->Select('tr_login', ['name', 'password'], 'WHERE name = ? AND password = ?', $infoUser);
-		if($users){
-			foreach ($users as $user) {
-				if(($user['name'] == $infoUser[0]) && ($user['password'] == $infoUser[1])){
+		$users = $this->Select
+		(
+			'tr_login', 
+			['name', 'password'], 
+			'WHERE name = ? AND password = ?', 
+			$infoUser
+		);
+		if($users)
+		{
+			foreach ($users as $user) 
+			{
+				if(
+					($user['name'] == $infoUser[0]) && ($user['password'] == $infoUser[1]))
+				{
 					$this->setUser($_POST['user']);
 					$this->setSenha($_POST['pass']);
 					$this->setCliente($_POST['clientes']);
@@ -60,9 +71,16 @@ class Painel extends MainModel{
 	* Método para recuperar do banco de dados os clientes rastreados
 	* @return array com os clientes
 	*/
-	public function getTrackingsClient(){
+	public function getTrackingsClient()
+	{
 		parent::__construct();
-		return $this->Select('tr_user', ['DISTINCT cliente']);
+		return $this->Select
+		(
+			'tr_cliente', 
+			['cliente'], 
+			'WHERE cliente NOT LIKE ?', 
+			['www']
+		);
 	}
 
 
