@@ -48,7 +48,7 @@
 		* Método para carregar o template do header padrão já formatado
 		* @return string formatada com o header
 		*/
-		public function getDefaultHeader(){
+		public function getDefaultHeader($pageTitle){
 			$header = file_get_contents(TEMPLATES.'/_includes/header.tpl');
 
 			$headerArray = array(
@@ -58,7 +58,7 @@
 			);
 
 			$headerValues= array(
-				'Tracking::Home',
+				$pageTitle,
 				PUBLIC_PATH.'_css/style.css',
 				PUBLIC_PATH.'_js/main.js'
 			);

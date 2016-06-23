@@ -13,13 +13,16 @@
 	
 	class Visualizacoes extends MainView{
 		
+		public $_pageTitle;
 		/**
 		* Método para renderizar as visualizações por periodo
 		*/
 
 		function VisualizacoesPorPeriodo(){
+
+			$this->_pageTitle = 'Tracking::Visualizações por Período';
 			// Renderizando o Cabeçalho, menu e sidebar
-			echo parent::getDefaultHeader();
+			echo parent::getDefaultHeader($this->_pageTitle);
 			echo parent::getDefaultNav();
 			echo parent::getDefaultSidebar();
 
@@ -69,8 +72,10 @@
 		*/
 		public function VisualizacoesPorAssunto(){
 
+			$this->_pageTitle = 'Tracking::Visualizações por Assunto';
+
 			// Renderizando o Cabeçalho, menu e sidebar
-			echo parent::getDefaultHeader();
+			echo parent::getDefaultHeader($this->_pageTitle);
 			echo parent::getDefaultNav();
 			echo parent::getDefaultSidebar();
 

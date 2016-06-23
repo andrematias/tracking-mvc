@@ -196,7 +196,7 @@ body {
 }
 .conteiner .body aside.sidebar {
   border-right: 1px solid #ccc;
-  width: 20%;
+  min-width: 20%;
 }
 .conteiner .body aside.sidebar ul {
   list-style: none;
@@ -213,7 +213,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 78%;
   padding: 10px;
 }
 .conteiner .body .content .grafico {
@@ -229,4 +229,30 @@ body {
   margin: 0px 30px 0px 30px;
   padding: 0px 15px 5px 15px;
   border-right: 1px solid #ccc;
+}
+.conteiner .body .content .scroll_x {
+  overflow-x: scroll;
+  width: 99%;
+}
+.conteiner .body .content .tr_dados {
+  clear: both;
+  padding-top: 50px;
+}
+.conteiner .body .content .tr_dados table {
+  width: 100%;
+  margin-bottom: 30px;
+  border-collapse: collapse;
+  white-space: nowrap;
+}
+.conteiner .body .content .tr_dados table th {
+  height: 40px;
+  background-color: #009ee0;
+  color: white;
+}
+.conteiner .body .content .tr_dados table th,
+.conteiner .body .content .tr_dados table td {
+  border: solid 1px #e0e4cc;
+}
+.conteiner .body .content .tr_dados table td {
+  padding: 10px;
 }

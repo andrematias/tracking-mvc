@@ -14,16 +14,14 @@ use App\Lib\Main\MainView;
 
 class Painel extends MainView{
 
-	public $_title = 'Painel de Login';
+	public $_pageTitle = 'Painel de Login';
 	
 	function ShowPainel($clientes){
 		//Carrega os templates
-		$header = file_get_contents(TEMPLATES.'header-painelLogin.tpl');
+		$header = parent::getDefaultHeader($this->_pageTitle);
 		$content = file_get_contents(TEMPLATES.'content-painelLogin.tpl');
-		$footer  = file_get_contents(TEMPLATES.'footer-painelLogin.tpl');
+		$footer  = parent::getDefaultFooter();
 
-		//Atribui o titulo a página
-		$header = str_replace('%%TITLE%%', $this->_title, $header);
 		//Inclui o link do css
 		$header = str_replace('%%LINK_CSS_MAIN%%', PUBLIC_PATH.'_css/style.css', $header);
 
