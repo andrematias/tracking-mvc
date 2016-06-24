@@ -14,9 +14,9 @@
 	define('DEBUG', true);
 
 // Dados de acesso ao banco de dados.
-	define('DB_HOSTNAME', 'track_enter.mysql.dbaas.com.br');
+	define('DB_HOSTNAME', '127.0.0.1');
 	define('DB_NAME', 'track_enter');
-	define('DB_USER', 'track_enter');
+	define('DB_USER', 'root');
 	define('DB_DRIVER', 'mysql');
-	define('DB_PASS', 'h_enter5555');
+	define('DB_PASS', '');
 	define('DB_CHARSET', 'charset=utf8');
