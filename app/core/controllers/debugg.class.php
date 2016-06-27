@@ -3,28 +3,28 @@
 	* 
 	*/
 	namespace App\Core\Controllers;
-	use App\Lib\DbTrack AS Banco;
-        use App\Lib\TrackingAPI as API;
-        use App\Lib\Cliente;
-        use App\Lib\User;
+    use \App\Lib\Cliente;
+    use App\Lib\User;
 
-	class Debugg extends Banco
+	class Debugg
 	{
 		
 		function index()
 		{
-                    $arr = ['cliente' => 'blog.com'];
+            $cliente = new Cliente();          
+            
+            $user = new User();
+            $api = new \App\Lib\TrackingAPI();
+            $api->cliente = 'http://blogar.com.br';
+            $api->user = 'Cardoso';
+            
 
-                    $keys = array_keys( $arr );
-                    $colunas = implode(', ', $keys);
-                    $campos = ':'.implode(', :', $keys);
-                    $valores = array_values($arr);
-
-                    //var_dump($keys);
-                    //var_dump($this->Salvar('tr_cliente', array( 'cliente' => 'http://copcorental.solutions' )));
-
-                    //var_dump($this->Query('SELECT * FROM tr_cliente WHERE cliente = :cliente AND id_cliente = :id_cliente', array('cliente' => 'http://copcorental.solutions', 'id_cliente'=>1)));
-
-                    var_dump($this->Update('tr_cliente', array('cliente'), 'WHERE cliente = ?', array('http://copcorental.solutions')));
+            $api->IncluirObservadores($cliente);
+            $api->IncluirObservadores($user);
+            $api->Notificar();
+            echo '<pre>';
+            var_dump($user);
+            var_dump($cliente);
+            
 		}
 	}
