@@ -1,16 +1,12 @@
 <?php
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 namespace App\Lib;
 
 /**
- * Description of cliente
+ * <b>Cliente</b>
+ * Classe de configuração de clientes rastreados
  *
- * @author Enterprise
+ * @author André Matias
  */
 class Cliente extends Observador
 {
@@ -52,14 +48,21 @@ class Cliente extends Observador
 
         if (empty($find) && $setCliente) {
             //Salva as informações no Banco de dados
-            parent::Salvar('tr_cliente', ['cliente' => $this->cliente]);
-            $this->clienteId = parent::LastId();
+            $value = array(
+                'cliente' => $this->cliente
+            );
+            $new = $this->newCliente($value);
+            $this->clienteId = ($new) ? parent::LastId() : null;
         } else {
             $this->cliente   = $find['cliente'];
             $this->clienteId = $find['id_cliente'];
         }
     }
 
+    public function newCliente(Array $values)
+    {
+        return parent::Salvar('tr_cliente', $values);
+    }
     /**
      * Recupera o id de um cliente no banco de dados
      * @param string $cliente
