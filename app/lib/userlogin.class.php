@@ -12,7 +12,7 @@
 	
 	class UserLogin	{
 
-		protected $_logged;
+		protected $logged;
 		
 		/**
 		* Método para ativar o valor das variaeis $_SESSION em todas

@@ -16,18 +16,18 @@ use App\Core\Models\Painel AS ModelPainel;
 class Login extends MainController{
 
 	/**
-	* _viewPainel propriedade para o Obj da classe que renderiza o painel na 
+	* viewPainel propriedade para o Obj da classe que renderiza o painel na 
 	* tela.
 	*/
-	public $_viewPainel;
+	public $viewPainel;
 
 	/**
-	* _modelLogin propriedade para o Obj da classe de modelagem dos dados 
+	* modelLogin propriedade para o Obj da classe de modelagem dos dados 
 	* obtidos pelo painel.
 	*/
-	public $_modelLogin;
+	public $modelLogin;
 
-	public $_params = [];
+	public $params = [];
 
 
 	/**
@@ -39,8 +39,8 @@ class Login extends MainController{
 		MainController::toHome();
 		
 		if(file_exists(ROOT.'app/core/views/painel.class.php')){
-			$this->_viewPainel = new ViewPainel();
-			$this->_modelLogin = new ModelPainel();
+			$this->viewPainel = new ViewPainel();
+			$this->modelLogin = new ModelPainel();
 
 			//Verificar se existe o usuário 
 			if(isset($_POST['op']) && !empty($_POST['user']) && !empty($_POST['pass'])){
@@ -48,21 +48,21 @@ class Login extends MainController{
 				* Descomentar a linha abaixo para ativar a encriptação de senha
 				* e comentar a próxima linha
 				*/
-				@$this->_params = [$_POST['user'], parent::encode64($_POST['pass'])];
-				//@$this->_params = [$_POST['user'], $_POST['pass']];
-				$this->_logged = $this->_modelLogin->CheckUser($this->_params);
+				@$this->params = [$_POST['user'], parent::encode64($_POST['pass'])];
+				//@$this->params = [$_POST['user'], $_POST['pass']];
+				$this->logged = $this->modelLogin->CheckUser($this->params);
 			}
 
 			//Envia os clientes rastreados para as opções no painel de login
-			$clientes = $this->_modelLogin->getTrackingsClient();
+			$clientes = $this->modelLogin->getTrackingsClient();
 
 			//Mostra o painel de Login ao usuário
-			$this->_viewPainel->ShowPainel($clientes);
+			$this->viewPainel->ShowPainel($clientes);
 
 
 			//definir as variaveis de sessão e enviar o usuário para home
-			if($this->_logged == true){
-				$this->_modelLogin->setSessionVars();
+			if($this->logged == true){
+				$this->modelLogin->setSessionVars();
 				header('Location:'.SITEPATH);
 			}
 
