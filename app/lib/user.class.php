@@ -1,56 +1,100 @@
 <?php
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 namespace App\Lib;
 
 /**
- * Description of user
+ * <b>User</b>
+ * Classe de Usuário único por clientes rastreados
  *
  * @author Enterprise
  */
 class User extends Observador
 {
+
     /**
      * Identificação única para um usuário
      * @var int
      */
-    protected $userId;
-    public $pais;
+    private $userId;
 
+    /**
+     * Hash única do usuário
+     * @var string
+     */
+    private $user;
+
+    /**
+     * Identificação única do cliente que o usuário pertence
+     * @var int
+     */
+    private $clienteId;
+
+    /**
+     * Método construtor da classe User
+     * @param \App\Lib\DbTrack $dbInstance Instancia do banco de dados
+     */
     public function __construct()
     {
-        if (is_null($this->database)) {
-            $this->database = new DbTrack();
-        }
-    }
-
-    public function Atualizar(Sujeito $dados)
-    {
-        $this->pais = $dados->pais;
+        //construtor do Banco de dados
+        parent::__construct();
     }
 
     /**
-     * Configura um id para um usuário
-     * @param string $userHash Hash única do usuário
+     * Método para atualizar os dados da classe com os valores passado pelo 
+     * sujeito.
+     * @param \App\Lib\Sujeito $dados Instancia da classe Observada
      */
-    public function SetUserId($userHash)
+    public function Atualizar(Sujeito $dados)
     {
-        $id = $this->database->Select(
-            'tr_user',
-            array('id_user'),
-            'WHERE user = ?',
-            array($userHash)
-        );
-
-        if ($id) {
-            $this->userId = (int) $id[0]['id_user'];
-            return true;
+        $this->clienteId = $this->GetClienteId($dados->cliente);
+        //Atualizar o usuario, clienteId, salvar e atualizar o userId
+        //verifica se existe um usuário com os dados passados
+        $check = $this->Find($dados->user);
+        if (!empty($check)) {
+            $this->user = $check['user'];
+            $this->userId = $check['id_user'];
+            $this->clienteId = $check['id_cliente'];
         } else {
-            return false;
+            $this->user = $dados->user;
+            $this->clienteId = $this->GetClienteId($dados->cliente);
+
+            //Salvar
+            parent::Salvar('tr_user', ['user' => $this->user, 'id_cliente' => $this->clienteId]);
+            $this->userId = parent::LastId();
         }
+    }
+
+    /**
+     * Configura a id do cliente atual na classe
+     * @param \App\Lib\Cliente $clienteName Instancia de um cliente
+     */
+    public function GetClienteId($clienteName)
+    {
+        $id = parent::Select('tr_cliente', ['id_cliente'], 'WHERE cliente = :cliente', [':cliente' => $clienteName]);
+        if (!empty($id)) {
+            return (int) $id['id_cliente'];
+        }
+    }
+
+    /**
+     * Método para recuperar um usuario do banco de dados
+     * @param string $userHash
+     * @return int
+     */
+    public function Find($userHash)
+    {
+        $user = parent::Select('tr_user', ['id_user', 'id_cliente', 'user'], 'WHERE user = :user', [':user' => $userHash]);
+        if (!empty($user)) {
+            return $user;
+        }
+    }
+
+    /**
+     * Retorna o id do usuário atual
+     * @return int
+     */
+    public function GetId()
+    {
+        return $this->userId;
     }
 }
