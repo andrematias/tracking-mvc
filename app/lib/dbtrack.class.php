@@ -26,7 +26,7 @@ class DbTrack
      * Método construtor da classe DbTrack instancia o objeto da PDO com as
      * propriedades configuradas.
      */
-    protected function __construct()
+    public function __construct()
     {
         //Definindo os valores das propriedades
         $this->dbDriver = DB_DRIVER;
