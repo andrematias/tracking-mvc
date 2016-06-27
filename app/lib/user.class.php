@@ -46,7 +46,7 @@ class User extends Observador
      */
     public function Atualizar(Sujeito $dados)
     {
-        $this->clienteId = $this->GetClienteId($dados->cliente);
+        $this->clienteId = $this->SetClienteId($dados->cliente);
         //Atualizar o usuario, clienteId, salvar e atualizar o userId
         //verifica se existe um usuário com os dados passados
         $check = $this->Find($dados->user);
@@ -56,19 +56,35 @@ class User extends Observador
             $this->clienteId = $check['id_cliente'];
         } else {
             $this->user = $dados->user;
-            $this->clienteId = $this->GetClienteId($dados->cliente);
+            $this->clienteId = $this->SetClienteId($dados->cliente);
 
             //Salvar
-            parent::Salvar('tr_user', ['user' => $this->user, 'id_cliente' => $this->clienteId]);
-            $this->userId = parent::LastId();
+            $userValues = array(
+                'user' => $this->user, 
+                'id_cliente' => $this->clienteId
+            );
+            
+            $new = $this->newUser($userValues);
+            $this->userId = ($new) ? parent::LastId() : null;
         }
     }
+
+    /**
+     * Salva um novo usuário no banco de dados
+     * @param array $userValues
+     * @return boolean
+     */
+    public function newUser($userValues)
+    {
+       return parent::Salvar('tr_user', $userValues);
+    }
+
 
     /**
      * Configura a id do cliente atual na classe
      * @param \App\Lib\Cliente $clienteName Instancia de um cliente
      */
-    public function GetClienteId($clienteName)
+    private function SetClienteId($clienteName)
     {
         $id = parent::Select('tr_cliente', ['id_cliente'], 'WHERE cliente = :cliente', [':cliente' => $clienteName]);
         if (!empty($id)) {
@@ -96,5 +112,22 @@ class User extends Observador
     public function GetId()
     {
         return $this->userId;
+    }
+
+    /**
+     * Retorna o usuário da instancia atual
+     * @return string
+     */
+    public function GetUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Retorna o clienteId da instancia atual
+     * @return int
+     */
+    public function GetClienteId(){
+        return $this->clienteId;
     }
 }
