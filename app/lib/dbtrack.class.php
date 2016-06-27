@@ -14,45 +14,44 @@ use \PDO;
 
 class DbTrack
 {
-    private $_db_name;
-    private $_db_host;
-    private $_db_user;
-    private $_db_pass;
-    private $_db_driver;
-    private $_db_charset;
-    protected $_conn;
+    private $dbName;
+    private $dbHost;
+    private $dbUser;
+    private $dbPass;
+    private $dbDriver;
+    private $dbCharset;
+    protected $conn;
 
     /**
      * Método construtor da classe DbTrack instancia o objeto da PDO com as
      * propriedades configuradas.
      */
-    public function __construct()
+    protected function __construct()
     {
         //Definindo os valores das propriedades
-        $this->_db_driver  = DB_DRIVER;
-        $this->_db_name    = DB_NAME;
-        $this->_db_host    = DB_HOSTNAME;
-        $this->_db_pass    = DB_PASS;
-        $this->_db_user    = DB_USER;
-        $this->_db_charset = DB_CHARSET;
+        $this->dbDriver = DB_DRIVER;
+        $this->dbName = DB_NAME;
+        $this->dbHost = DB_HOSTNAME;
+        $this->dbPass = DB_PASS;
+        $this->dbUser = DB_USER;
+        $this->dbCharset = DB_CHARSET;
 
         //Instanciando a classe PDO
         try {
             //Variavel temporaria para detalhes do tipo de conexão
-            $details = $this->_db_driver.":host=".$this->_db_host.";dbname=".$this->_db_name.";".$this->_db_charset;
+            $details = $this->dbDriver . ":host=" . $this->dbHost . ";dbname=" . $this->dbName . ";" . $this->dbCharset;
 
             //Instancia da classe PDO nativa do php
-            $this->_conn = new PDO($details, "$this->_db_user",
-                "$this->_db_pass");
+            $this->conn = new PDO($details, "$this->dbUser", "$this->dbPass");
 
             //Destruindo as propriedades que não serão utilizadas
             unset($details);
-            unset($this->_db_user);
-            unset($this->_db_charset);
-            unset($this->_db_driver);
-            unset($this->_db_host);
-            unset($this->_db_name);
-            unset($this->_db_pass);
+            unset($this->dbUser);
+            unset($this->dbCharset);
+            unset($this->dbDriver);
+            unset($this->dbHost);
+            unset($this->dbName);
+            unset($this->dbPass);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -61,28 +60,33 @@ class DbTrack
     /**
      * Método para retornar o Obj de conexão instanciado.
      * @access public
-     * @return Obj PDO _conn
+     * @return Obj PDO conn
      */
     public function getConn()
     {
-        return $this->_conn;
+        return $this->conn;
     }
 
     /**
-     * Método para executar uma Query no Banco de dados instanciado em _conn
+     * Método para executar uma Query no Banco de dados instanciado em conn
      * @access public
      * @param String $sql a query a ser executada
      * @param String $values os valores para a sql caso existam
      * @return Obj PDO $sttm or Boolean false
      */
-    public function Query($sql, $values = NULL)
+    protected function Query($sql, Array $values = NULL)
     {
-        $sttm = $this->_conn->prepare($sql);
-        $sttm->execute($values);
-        if ($sttm) {
-            return $sttm;
-        }
-        return false;
+        $sttm = $this->conn->prepare($sql);
+        return $sttm->execute($values);
+    }
+
+    /**
+     * Retorna o ultimo id incluido no Banco de dados
+     * @return int
+     */
+    protected function LastId()
+    {
+        return (int) $this->conn->lastInsertId();
     }
 
     /**
@@ -93,11 +97,12 @@ class DbTrack
      * @param Array $CondValues, Array com os valores para a condição
      * @return Array Assoc ou Booleano false
      */
-    public function Select
+    protected function Select
     (
     $tableName, Array $colls = [], $cond = NULL, Array $condValues = NULL
     )
     {
+
         if (!empty($colls) && is_array($colls)) {
             $colunas = implode(', ', $colls);
         } else {
@@ -105,14 +110,41 @@ class DbTrack
         }
 
         //Requisição com a Query formada
-        $sttm    = $this->Query('SELECT '.$colunas.' FROM '.$tableName.' '.$cond.' ',
-            $condValues);
-        $results = $sttm->fetchAll(PDO::FETCH_ASSOC);
-        if ($results) {
-            return $results;
+        $sql = 'SELECT ' . $colunas . ' FROM ' . $tableName . ' ' . $cond;
+
+        $sttm = $this->getConn();
+        $query = $sttm->prepare($sql);
+        $query->execute($condValues);
+        return $query->fetch();
+    }
+    
+    /**
+     * Método para recuperar todos os dados de uma tabela do banco de dados
+     * @access public
+     * @param Array $colls, Array com os nomes das colunas
+     * @param String $Cond, String com a condição
+     * @param Array $CondValues, Array com os valores para a condição
+     * @return Array Assoc ou Booleano false
+     */
+    protected function SelectAll
+    (
+    $tableName, Array $colls = [], $cond = NULL, Array $condValues = NULL
+    )
+    {
+
+        if (!empty($colls) && is_array($colls)) {
+            $colunas = implode(', ', $colls);
         } else {
-            return false;
+            $colunas = '*';
         }
+
+        //Requisição com a Query formada
+        $sql = 'SELECT ' . $colunas . ' FROM ' . $tableName . ' ' . $cond;
+
+        $sttm = $this->getConn();
+        $query = $sttm->prepare($sql);
+        $query->execute($condValues);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
@@ -123,22 +155,24 @@ class DbTrack
      * @param array condValues, array com os bindValues da condição
      * @return bool
      */
-    public function Update
+    protected function Update
     (
-    $tableName, Array $updatesColumns, $cond, Array $condValues = NULL
+    $id, $tableName, Array $parameters
     )
     {
-        if (!empty($updatesColumns) && is_array($updatesColumns)) {
-            $updates = implode(', ', $updatesColumns);
+        $campos = null;
+        foreach ($parameters as $key => $value) {
+            $campos .= $key . ' = :' . $key . ', ';
         }
-        $sttm = $this->Query('UPDATE '.$tableName.' SET '.$updates.' '.$cond,
-            $condValues);
 
-        if ($sttm) {
-            return true;
-        } else {
-            return false;
-        }
+        $campos = rtrim($campos, ', ');
+
+        $tableId = str_replace('tr_', 'id_', $tableName);
+
+        $parameters['id'] = $id;
+
+        //executa a query
+        return $this->Query('UPDATE ' . $tableName . ' SET ' . $campos . ' WHERE ' . $tableId . ' = :id', $parameters);
     }
 
     /**
@@ -148,37 +182,35 @@ class DbTrack
      * @param Array $valuesCond array com os bindValues para a condição
      * @return bool
      */
-    public function Delete
+    protected function Delete
     (
-    $tableName, $cond, Array $valuesCond = NULL
+    $id, $tableName
     )
     {
-        $sttm = $this->Query('DELETE FROM '.$tableName.' '.$cond, $valuesCond);
-        if ($sttm) {
-            return true;
-        } else {
-            return false;
-        }
+        $tableId = str_replace('tr_', 'id_', $tableName);
+
+        $parameters['id'] = $id;
+
+        return $this->Query('DELETE FROM ' . $tableName . ' WHERE ' . $tableId . ' = :id', $parameters);
     }
 
-    public function Salvar
+    /**
+     * Método para incluir dados em uma tabela do Banco de dados instanciado
+     * @param type $tableName
+     * @param array $inputs
+     * @return type bool
+     */
+    protected function Salvar
     (
     $tableName, Array $inputs
     )
     {
         if (is_array($inputs) && !empty($inputs)) {
-            $keys    = array_keys($inputs);
+            $keys = array_keys($inputs);
             $colunas = implode(', ', $keys);
-            $bind    = ':'.implode(', :', $keys);
+            $bind = ':' . implode(', :', $keys);
         }
 
-        $sttm = $this->Query('INSERT INTO '.$tableName.' ('.$colunas.') VALUES ('.$bind.')',
-            $inputs);
-        var_dump($sttm);
-        if ($sttm) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->Query('INSERT INTO ' . $tableName . ' (' . $colunas . ') VALUES (' . $bind . ')', $inputs);
     }
 }
