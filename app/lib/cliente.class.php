@@ -38,7 +38,7 @@ class Cliente extends Observador
      * @param \App\Lib\Sujeito $dados instancia da classe que esta sendo
      * observada
      */
-    public function Atualizar(Sujeito $dados)
+    public function atualizar(Sujeito $dados)
     {
         //Atribui os valores informados para instancia atual
         $setCliente = $this->SetCliente($dados->cliente);
@@ -68,9 +68,9 @@ class Cliente extends Observador
      * @param string $cliente
      * @return int
      */
-    public function Find($cliente)
+    public function find($cliente)
     {
-        $out = parent::Select(
+        $out = parent::select(
                 'tr_cliente', ['id_cliente', 'cliente'], 'WHERE cliente = :cliente', [':cliente' => $cliente]
         );
         if (!empty($out)) {
@@ -82,7 +82,7 @@ class Cliente extends Observador
      * Método para pegar o id corrente da instancia
      * @return int
      */
-    public function GetId()
+    public function getId()
     {
         return $this->clienteId;
     }
@@ -91,7 +91,7 @@ class Cliente extends Observador
      * Método para retornar o nome do cliente
      * @return string
      */
-    public function GetCliente()
+    public function getCliente()
     {
         return $this->cliente;
     }
@@ -101,9 +101,9 @@ class Cliente extends Observador
      * @param string $cliente
      * @return boolean
      */
-    public function SetCliente($cliente)
+    public function setCliente($cliente)
     {
-        if ($this->CheckDomain($cliente)) {
+        if ($this->checkDomain($cliente)) {
             $this->cliente = \str_replace('www.', '', $cliente);
             return true;
         } else {
@@ -117,7 +117,7 @@ class Cliente extends Observador
      * @param string $cliente
      * @return boolean
      */
-    private function CheckDomain($cliente)
+    private function checkDomain($cliente)
     {
         return \preg_match('/^http[s]?:\/\/(www\.)?[a-z0-9_\.\-]*[a-z0-9_\.\-]+\.[a-z]{2,10}$/', $cliente);
     }
@@ -126,8 +126,8 @@ class Cliente extends Observador
      * Método para listar todas os clientes cadastrados no banco
      * @return Array Assoc
      */
-    public function ListarClientes()
+    public function listarClientes()
     {
-        return parent::SelectAll('tr_cliente');
+        return parent::selectAll('tr_cliente');
     }
 }

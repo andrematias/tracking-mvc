@@ -44,9 +44,9 @@ class User extends Observador
      * sujeito.
      * @param \App\Lib\Sujeito $dados Instancia da classe Observada
      */
-    public function Atualizar(Sujeito $dados)
+    public function atualizar(Sujeito $dados)
     {
-        $this->clienteId = $this->SetClienteId($dados->cliente);
+        $this->clienteId = $this->clienteId($dados->cliente);
         //Atualizar o usuario, clienteId, salvar e atualizar o userId
         //verifica se existe um usuário com os dados passados
         $check = $this->Find($dados->user);
@@ -56,16 +56,16 @@ class User extends Observador
             $this->clienteId = $check['id_cliente'];
         } else {
             $this->user = $dados->user;
-            $this->clienteId = $this->SetClienteId($dados->cliente);
+            $this->clienteId = $this->clienteId($dados->cliente);
 
-            //Salvar
+            //salvar
             $userValues = array(
-                'user' => $this->user, 
+                'user' => $this->user,
                 'id_cliente' => $this->clienteId
             );
-            
+
             $new = $this->newUser($userValues);
-            $this->userId = ($new) ? parent::LastId() : null;
+            $this->userId = ($new) ? parent::lastId() : null;
         }
     }
 
@@ -76,17 +76,16 @@ class User extends Observador
      */
     public function newUser($userValues)
     {
-       return parent::Salvar('tr_user', $userValues);
+        return parent::salvar('tr_user', $userValues);
     }
-
 
     /**
      * Configura a id do cliente atual na classe
      * @param \App\Lib\Cliente $clienteName Instancia de um cliente
      */
-    private function SetClienteId($clienteName)
+    private function clienteId($clienteName)
     {
-        $id = parent::Select('tr_cliente', ['id_cliente'], 'WHERE cliente = :cliente', [':cliente' => $clienteName]);
+        $id = parent::select('tr_cliente', ['id_cliente'], 'WHERE cliente = :cliente', [':cliente' => $clienteName]);
         if (!empty($id)) {
             return (int) $id['id_cliente'];
         }
@@ -97,9 +96,9 @@ class User extends Observador
      * @param string $userHash
      * @return int
      */
-    public function Find($userHash)
+    public function find($userHash)
     {
-        $user = parent::Select('tr_user', ['id_user', 'id_cliente', 'user'], 'WHERE user = :user', [':user' => $userHash]);
+        $user = parent::select('tr_user', ['id_user', 'id_cliente', 'user'], 'WHERE user = :user', [':user' => $userHash]);
         if (!empty($user)) {
             return $user;
         }
@@ -109,7 +108,7 @@ class User extends Observador
      * Retorna o id do usuário atual
      * @return int
      */
-    public function GetId()
+    public function getUserId()
     {
         return $this->userId;
     }
@@ -118,7 +117,7 @@ class User extends Observador
      * Retorna o usuário da instancia atual
      * @return string
      */
-    public function GetUser()
+    public function getUser()
     {
         return $this->user;
     }
@@ -127,7 +126,36 @@ class User extends Observador
      * Retorna o clienteId da instancia atual
      * @return int
      */
-    public function GetClienteId(){
+    public function getClienteId()
+    {
         return $this->clienteId;
     }
+    
+    /**
+     * Configura um id para o cliente
+     * @param int $id
+     */
+    public function setClienteId($id)
+    {
+        $this->clienteId = $id;
+    }
+    
+    /**
+     * Configura um usuário
+     * @param string $userName
+     */
+    public function setUser($userName)
+    {
+        $this->user = $userName;
+    }
+    
+    /**
+     * Configura um id de um usuário
+     * @param int $id
+     */
+    public function setUserId($id)
+    {
+        $this->userId = $$id;
+    }
+    
 }

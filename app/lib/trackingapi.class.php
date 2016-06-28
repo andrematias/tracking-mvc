@@ -129,7 +129,7 @@ class TrackingAPI extends Sujeito
      * Inclui na array list o observador informado
      * @param \App\Lib\Observador $observador Instancia do Observador
      */
-    public function IncluirObservadores( Observador $observador ){
+    public function incluirObservadores( Observador $observador ){
         try {
             $this->observadores[] = $observador;
             return true;
@@ -144,7 +144,7 @@ class TrackingAPI extends Sujeito
      * Remove o observador informado da array list
      * @param \App\Lib\Observador $observador Instancia do Observador
      */
-    public function RemoverObservadores( Observador $observador ){
+    public function removerObservadores( Observador $observador ){
         $key = array_search($observador, $this->observadores, true);
 
         if( $key ){
@@ -159,9 +159,9 @@ class TrackingAPI extends Sujeito
      * Método para notificar a lista de observadores sobre a inclusão dos dados
      * na classe TrackingAPI
      */
-    public function Notificar(){
+    public function notificar(){
         foreach ( $this->observadores as $observador ){
-            $observador->Atualizar( $this );
+            $observador->atualizar( $this );
         }
     }
 

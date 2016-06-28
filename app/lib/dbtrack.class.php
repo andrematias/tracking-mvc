@@ -68,13 +68,13 @@ class DbTrack
     }
 
     /**
-     * Método para executar uma Query no Banco de dados instanciado em conn
+     * Método para executar uma query no Banco de dados instanciado em conn
      * @access public
      * @param String $sql a query a ser executada
      * @param String $values os valores para a sql caso existam
      * @return Obj PDO $sttm or Boolean false
      */
-    protected function Query($sql, Array $values = NULL)
+    protected function query($sql, Array $values = NULL)
     {
         $sttm = $this->conn->prepare($sql);
         return $sttm->execute($values);
@@ -84,7 +84,7 @@ class DbTrack
      * Retorna o ultimo id incluido no Banco de dados
      * @return int
      */
-    protected function LastId()
+    protected function lastId()
     {
         return (int) $this->conn->lastInsertId();
     }
@@ -97,7 +97,7 @@ class DbTrack
      * @param Array $CondValues, Array com os valores para a condição
      * @return Array Assoc ou Booleano false
      */
-    protected function Select
+    protected function select
     (
     $tableName, Array $colls = [], $cond = NULL, Array $condValues = NULL
     )
@@ -109,7 +109,7 @@ class DbTrack
             $colunas = '*';
         }
 
-        //Requisição com a Query formada
+        //Requisição com a query formada
         $sql = 'SELECT ' . $colunas . ' FROM ' . $tableName . ' ' . $cond;
 
         $sttm = $this->getConn();
@@ -126,7 +126,7 @@ class DbTrack
      * @param Array $CondValues, Array com os valores para a condição
      * @return Array Assoc ou Booleano false
      */
-    protected function SelectAll
+    protected function selectAll
     (
     $tableName, Array $colls = [], $cond = NULL, Array $condValues = NULL
     )
@@ -138,7 +138,7 @@ class DbTrack
             $colunas = '*';
         }
 
-        //Requisição com a Query formada
+        //Requisição com a query formada
         $sql = 'SELECT ' . $colunas . ' FROM ' . $tableName . ' ' . $cond;
 
         $sttm = $this->getConn();
@@ -155,7 +155,7 @@ class DbTrack
      * @param array condValues, array com os bindValues da condição
      * @return bool
      */
-    protected function Update
+    protected function update
     (
     $id, $tableName, Array $parameters
     )
@@ -172,7 +172,7 @@ class DbTrack
         $parameters['id'] = $id;
 
         //executa a query
-        return $this->Query('UPDATE ' . $tableName . ' SET ' . $campos . ' WHERE ' . $tableId . ' = :id', $parameters);
+        return $this->query('UPDATE ' . $tableName . ' SET ' . $campos . ' WHERE ' . $tableId . ' = :id', $parameters);
     }
 
     /**
@@ -182,7 +182,7 @@ class DbTrack
      * @param Array $valuesCond array com os bindValues para a condição
      * @return bool
      */
-    protected function Delete
+    protected function delete
     (
     $id, $tableName
     )
@@ -191,7 +191,7 @@ class DbTrack
 
         $parameters['id'] = $id;
 
-        return $this->Query('DELETE FROM ' . $tableName . ' WHERE ' . $tableId . ' = :id', $parameters);
+        return $this->query('DELETE FROM ' . $tableName . ' WHERE ' . $tableId . ' = :id', $parameters);
     }
 
     /**
@@ -200,7 +200,7 @@ class DbTrack
      * @param array $inputs
      * @return type bool
      */
-    protected function Salvar
+    protected function salvar
     (
     $tableName, Array $inputs
     )
@@ -211,6 +211,6 @@ class DbTrack
             $bind = ':' . implode(', :', $keys);
         }
 
-        return $this->Query('INSERT INTO ' . $tableName . ' (' . $colunas . ') VALUES (' . $bind . ')', $inputs);
+        return $this->query('INSERT INTO ' . $tableName . ' (' . $colunas . ') VALUES (' . $bind . ')', $inputs);
     }
 }

@@ -16,7 +16,7 @@ class Painel extends MainView{
 
 	public $_pageTitle = 'Painel de Login';
 	
-	function ShowPainel($clientes){
+	function showPainel($clientes){
 		//Carrega os templates
 		$header = parent::getDefaultHeader($this->_pageTitle);
 		$content = file_get_contents(TEMPLATES.'content-painelLogin.tpl');

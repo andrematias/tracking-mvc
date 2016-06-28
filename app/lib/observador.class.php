@@ -17,6 +17,6 @@ Abstract class Observador extends DbTrack
      * essencial para os observadores.
      * @param Sujeito $dados instancia da classe que esta sendo observada.
      */
-    abstract public function Atualizar( Sujeito $dados );
+    abstract public function atualizar( Sujeito $dados );
     
 }

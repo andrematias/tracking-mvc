@@ -9,20 +9,20 @@ use App\Core\Views\Relatorios AS ViewRelatorios;
 
 class Relatorios extends MainController
 {
-	public $_view;
+	public $view;
 	
 	function index()
 	{
-		$this->Consolidado();
+		$this->consolidado();
 	}
 
-	function Consolidado(){
+	function consolidado(){
 		$this->_view = new ViewRelatorios;
-		$this->_view->Consolidado();
+		$this->_view->consolidado();
 	}
 
-	function Detalhado(){
+	function detalhado(){
 		$this->_view  = new ViewRelatorios;
-		$this->_view->Detalhado();
+		$this->_view->detalhado();
 	}
 }

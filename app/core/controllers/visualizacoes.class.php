@@ -25,20 +25,20 @@
 			//Verifica e chama a view da home
 			if(file_exists(ROOT.'/app/core/views/visualizacoes.class.php')){
 				$this->_view = new VisualizacoesView;
-				$this->_view->VisualizacoesPorPeriodo();
+				$this->_view->visualizacoesPorPeriodo();
 			}else{
 				header('Location:'.SITEPATH.'/notfound');
 			}
 		}
 
-		function Assunto(){
+		function assunto(){
 			//Verifica se esta logado senão redireciona para o painel de login
 			MainController::toLogin();
 
 			//Verifica e chama a view da home
 			if(file_exists(ROOT.'/app/core/views/visualizacoes.class.php')){
 				$this->_view = new VisualizacoesView;
-				$this->_view->VisualizacoesPorAssunto();
+				$this->_view->visualizacoesPorassunto();
 			}else{
 				header('Location:'.SITEPATH.'/notfound');
 			}

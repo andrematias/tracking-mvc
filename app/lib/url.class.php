@@ -59,16 +59,16 @@ class Url extends Observador
      * passados pela classe Sujeito.
      * @param \App\Lib\Sujeito $dados instancia da classe Sujeito
      */
-    public function Atualizar(Sujeito $dados)
+    public function atualizar(Sujeito $dados)
     {
         //Verifica, salva ou atualiza
-        $this->clienteId = $this->ClienteId($dados->cliente);
-        $this->interesseId = $this->InteresseId($dados->interesse, $dados->linhaDeNegocio);
+        $this->clienteId = $this->clienteId($dados->cliente);
+        $this->interesseId = $this->interesseId($dados->interesse, $dados->linhaDeNegocio);
         $this->origemId = $this->OrigemId($dados->origem, $dados->score);
         $this->shortUrl = $dados->shortUrl;
         $this->url = $dados->url;
 
-        $check = $this->Find($this->url);
+        $check = $this->find($this->url);
         if($check){
            $this->urlId = $check['id_url'];
            $this->url = $check['url'];
@@ -84,8 +84,7 @@ class Url extends Observador
            if(!empty($this->interesseId) && $this->interesseId != $check['id_type']){
                $parameters['id_type'] = $this->interesseId;
            }
-           var_dump($parameters);
-           return parent::Update($this->urlId, 'tr_url', $parameters);
+           return parent::update($this->urlId, 'tr_url', $parameters);
         }else{
             $urlValues = array(
                 'url'        => $this->url,
@@ -96,7 +95,7 @@ class Url extends Observador
             );
 
             $new = $this->newUrl($urlValues);
-            $this->urlId = ($new) ? parent::LastId() : null;
+            $this->urlId = ($new) ? parent::lastId() : null;
         }
     }
     
@@ -110,9 +109,9 @@ class Url extends Observador
      * @param string $clienteName
      * @return int
      */
-    private function ClienteId($clienteName)
+    private function clienteId($clienteName)
     {
-        $id = parent::Select('tr_cliente', ['id_cliente'], 'WHERE cliente = :cliente', [':cliente' => $clienteName]);
+        $id = parent::select('tr_cliente', ['id_cliente'], 'WHERE cliente = :cliente', [':cliente' => $clienteName]);
         $this->clienteId = ($id) ? (int)$id['id_cliente'] : null;
         return $this->clienteId;
     }
@@ -123,9 +122,9 @@ class Url extends Observador
      * @param string $bl
      * @return int
      */
-    private function InteresseId($interesse, $bl)
+    private function interesseId($interesse, $bl)
     {
-        $id = parent::Select('tr_type', ['id_type'], 'WHERE type_interest = :interesse AND type_bl = :linha', [':interesse' => $interesse, ':linha' => $bl]);
+        $id = parent::select('tr_type', ['id_type'], 'WHERE type_interest = :interesse AND type_bl = :linha', [':interesse' => $interesse, ':linha' => $bl]);
         $this->interesseId = ($id) ? (int)$id['id_type'] : null;
         return $this->interesseId;
     }
@@ -138,7 +137,7 @@ class Url extends Observador
      */
     private function OrigemId($origem, $score)
     {
-        $id = parent::Select('tr_source', ['id_source'], 'WHERE source = :origem AND default_score = :score', [':origem' => $origem, ':score'=>$score]);
+        $id = parent::select('tr_source', ['id_source'], 'WHERE source = :origem AND default_score = :score', [':origem' => $origem, ':score'=>$score]);
         $this->origemId = ($id) ? (int)$id['id_source'] : null;
         return $this->origemId;
     }
@@ -148,9 +147,9 @@ class Url extends Observador
      * @param string $url
      * @return array com os dados da url buscada
      */
-    public function Find($url)
+    public function find($url)
     {
-        $link = parent::Select('tr_url', ['id_url', 'id_cliente', 'id_type', 'id_type', 'id_source', 'url', 'short_url'], 'WHERE url = :url', [':url' => $url]);
+        $link = parent::select('tr_url', ['id_url', 'id_cliente', 'id_type', 'id_type', 'id_source', 'url', 'short_url'], 'WHERE url = :url', [':url' => $url]);
         return ( $link )? $link : false;
     }
 
@@ -268,7 +267,7 @@ class Url extends Observador
      */
     public function listUrls()
     {
-        return parent::SelectAll('tr_url');
+        return parent::selectAll('tr_url');
     }
 
 }

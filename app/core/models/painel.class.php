@@ -20,19 +20,19 @@ class Painel extends MainModel
      * Propriedade para guardar o nome de usuário
      * @access private
      */
-    private $_user;
+    private $user;
 
     /**
      * Propriedade para guardar a senha do usuário
      * @access private
      */
-    private $_senha;
+    private $senha;
 
     /**
      * Propriedade para guardar o cliente rastreado
      * @access private
      */
-    private $_cliente;
+    private $cliente;
 
     /**
      * Método para verificar a correspondencia de um usuário na tabela de Login
@@ -40,9 +40,9 @@ class Painel extends MainModel
      * @access public
      * @return Booleano.
      */
-    public function CheckUser(Array $infoUser)
+    public function checkUser(Array $infoUser)
     {
-        $users = $this->SelectAll
+        $users = $this->selectAll
             (
             'tr_login', ['name', 'password'], 'WHERE name = ? AND password = ?', $infoUser
         );

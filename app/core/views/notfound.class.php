@@ -8,7 +8,7 @@
 */
 	namespace App\Core\Views;
 	
-	class NotFound{
+	class notFound{
 		
 		function __construct()
 		{

@@ -70,7 +70,7 @@
 		/**
 		* Método para renderizar as visualizações por assunto
 		*/
-		public function VisualizacoesPorAssunto(){
+		public function visualizacoesPorAssunto(){
 
 			$this->_pageTitle = 'Tracking::Visualizações por Assunto';
 

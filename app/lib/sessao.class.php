@@ -61,13 +61,13 @@ class Sessao extends Observador
      * Instancia da classe Observador
      * @param \App\Lib\Sujeito $dados instancia da classe Sujeito
      */
-    public function Atualizar(Sujeito $dados)
+    public function atualizar(Sujeito $dados)
     {
         $this->sessionDate   = $dados->sessionDate;
         $this->sessionStart  = $dados->sessionStart;
         $this->sessionEnd    = $dados->sessionEnd;
-        $this->userId        = $this->UserId($dados->user);
-        $this->urlId         = $this->UrlId($dados->url);
+        $this->userId        = $this->userId($dados->user);
+        $this->urlId         = $this->urlId($dados->url);
         
         //Verifica, salva ou atualiza
         if(!empty($this->sessionEnd) && $this->sessionEnd != Null){
@@ -76,7 +76,7 @@ class Sessao extends Observador
                'session_start' => $this->sessionStart
             );
 
-           $check = $this->Find($dadosSessao);
+           $check = $this->find($dadosSessao);
 
            if($check){
                $this->sessaoId = $check['id_session'];
@@ -88,7 +88,7 @@ class Sessao extends Observador
                $parameters = array(
                    'session_end' => $this->sessionEnd
                );
-               return parent::Update($this->sessaoId, 'tr_session', $parameters);
+               return parent::update($this->sessaoId, 'tr_session', $parameters);
            }else{
                $dadosSessao = array(
                 'session_date'  => $this->sessionDate,
@@ -100,7 +100,7 @@ class Sessao extends Observador
 
             $new = $this->newSession($dadosSessao);
 
-            $this->sessaoId = ($new) ? parent::LastId() : null;
+            $this->sessaoId = ($new) ? parent::lastId() : null;
            }
         }else{
             $dadosSessao = array(
@@ -113,7 +113,7 @@ class Sessao extends Observador
 
             $new = $this->newSession($dadosSessao);
 
-            $this->sessaoId = ($new) ? parent::LastId() : null;
+            $this->sessaoId = ($new) ? parent::lastId() : null;
         }
     }
 
@@ -124,7 +124,7 @@ class Sessao extends Observador
      */
     public function newSession(Array $dadosSessao)
     {
-        return parent::Salvar('tr_session', $dadosSessao);
+        return parent::salvar('tr_session', $dadosSessao);
     }
 
     /**
@@ -133,7 +133,7 @@ class Sessao extends Observador
      * $sessionData string e.g. "session_start=10:40:00&session_end=10:40:00"
      * @return Array se existir dados correspondentes ou false
      */
-    public function Find($sessionData)
+    public function find($sessionData)
     {
         if( !is_array($sessionData) ){
             $arr = array();
@@ -160,7 +160,7 @@ class Sessao extends Observador
 
             $cond = (trim(rtrim($cond, ' AND ')));
         }
-        $link = parent::Select('tr_session', array(), 'WHERE '.$cond, $arr);
+        $link = parent::select('tr_session', array(), 'WHERE '.$cond, $arr);
         return (!empty($link)) ? $link : false;
     }
 
@@ -177,7 +177,7 @@ class Sessao extends Observador
      * Retorna o id do usuário
      * @return int
      */
-    public function getUserId()
+    public function getuserId()
     {
         return $this->userId;
     }
@@ -186,7 +186,7 @@ class Sessao extends Observador
      * Retorna a id da Url
      * @return int
      */
-    public function getUrlId()
+    public function geturlId()
     {
         return $this->urlId;
     }
@@ -231,9 +231,9 @@ class Sessao extends Observador
      * @param string $user, hash única do usuário
      * @return boolean
      */
-    private function UserId( $user )
+    private function userId( $user )
     {
-        $id = parent::Select('tr_user', ['id_user'], 'WHERE user = :user', [':user' => $user]);
+        $id = parent::select('tr_user', ['id_user'], 'WHERE user = :user', [':user' => $user]);
         $this->userId = ( !empty( $id ) ) ? (int)$id['id_user'] : null;
         return $this->userId;
     }
@@ -243,9 +243,9 @@ class Sessao extends Observador
      * @param string $url
      * @return int
      */
-    private function UrlId($url)
+    private function urlId($url)
     {
-        $id = parent::Select('tr_url', ['id_url'], 'WHERE url = :url', [':url' => $url]);
+        $id = parent::select('tr_url', ['id_url'], 'WHERE url = :url', [':url' => $url]);
         $this->urlId = (!empty($id)) ? $id['id_url'] : null;
         return $this->urlId;
     }

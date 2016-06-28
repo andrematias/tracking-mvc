@@ -18,7 +18,7 @@
 		* Método para ativar o valor das variaeis $_SESSION em todas
 		* as páginas que ela estiver presente.
 		*/
-		protected function InitSession(){
+		protected function initSession(){
 			if(session_id() == null){
 				ini_set('session.name', 'tracking_session');
 				ini_set('session.hash_function', 'sha512');
@@ -32,7 +32,7 @@
 		/**
 		* Método para destruir uma sessão e seus valores
 		*/
-		protected function SessionDestroy(){
+		protected function sessionDestroy(){
 			if(session_id() != null){
 				$_SESSION = array();
 				session_destroy();

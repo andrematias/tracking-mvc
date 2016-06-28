@@ -24,7 +24,7 @@
 		}
 
 		/*Checar se existe uma sessão logada*/
-		protected static function CheckSession(){
+		protected static function checkSession(){
 			if(isset($_SESSION['user'])){
 				return true;
 			}else{
@@ -37,7 +37,7 @@
 		* login.
 		*/
 		public static function toLogin(){
-			if(self::CheckSession() == false) header('Location:'.SITEPATH.'/login');
+			if(self::checkSession() == false) header('Location:'.SITEPATH.'/login');
 		}
 
 		/**
@@ -45,7 +45,7 @@
 		* Inicial da aplicação.
 		*/
 		public static function toHome(){
-			if(self::CheckSession()) header('Location:'.SITEPATH.'/home');
+			if(self::checkSession()) header('Location:'.SITEPATH.'/home');
 		}
 
 		/**

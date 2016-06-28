@@ -34,7 +34,7 @@ class Login extends MainController{
 	* Método padrão da classe implementa a view do painel, modelagem dos dados
 	* e redirecionadores
 	*/
-	public function Index(){
+	public function index(){
 		//Verifica se o usuário já esta logado.
 		MainController::toHome();
 		
@@ -57,7 +57,7 @@ class Login extends MainController{
 			$clientes = $this->modelLogin->getTrackingsClient();
 
 			//Mostra o painel de Login ao usuário
-			$this->viewPainel->ShowPainel($clientes);
+			$this->viewPainel->showPainel($clientes);
 
 
 			//definir as variaveis de sessão e enviar o usuário para home

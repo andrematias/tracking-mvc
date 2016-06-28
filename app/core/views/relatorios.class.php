@@ -12,7 +12,7 @@ class Relatorios extends MainView
 {
 	public $_pageTitle;
 	
-	function Consolidado()
+	function consolidado()
 	{
 		$this->_pageTitle = 'Trakcing::Relatório Consolidado';
 
@@ -25,7 +25,7 @@ class Relatorios extends MainView
 		echo parent::getDefaultFooter();
 	}
 
-	function Detalhado()
+	function detalhado()
 	{
 		$this->_pageTitle = 'Trakcing::Relatório Detalhado';
 
