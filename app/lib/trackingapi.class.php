@@ -35,6 +35,48 @@ class TrackingAPI extends Sujeito
     public $shortUrl;
 
     /**
+     * Endereço da empresa
+     * @var string
+     */
+    public $endereco;
+
+    /**
+     * Cep da empresa
+     * @var string
+     */
+    public $cep;
+
+    /**
+     * Estado do usuário
+     * @var estado
+     */
+    public $estado;
+
+    /**
+     * Cidade do usuário
+     * @var string
+     */
+    public $cidade;
+
+    /**
+     * Cnpj da empresa do usuário
+     * @var string
+     */
+    public $cnpj;
+
+    /**
+     * Ramo de atividade da empresa
+     * @var string
+     */
+    public $ramo;
+
+    /**
+     * Telefone para contato do usuário
+     * @var string
+     */
+    public $telefone;
+
+    /**
      * Email fornecido por formulários ou tag %%emailaddress%%
      * @var string
      */
@@ -123,7 +165,6 @@ class TrackingAPI extends Sujeito
      * @var string
      */
     public $sessionDate;
-
 
     /**
      * Inclui na array list o observador informado
