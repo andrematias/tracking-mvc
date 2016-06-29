@@ -115,7 +115,7 @@ class DbTrack
         $sttm = $this->getConn();
         $query = $sttm->prepare($sql);
         $query->execute($condValues);
-        return $query->fetch();
+        return $query->fetch(PDO::FETCH_ASSOC);
     }
     
     /**
