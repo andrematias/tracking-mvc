@@ -73,7 +73,8 @@ class Sessao extends Observador
         if(!empty($this->sessionEnd) && $this->sessionEnd != Null){
             $dadosSessao = array(
                'id_user' => $this->userId,
-               'session_start' => $this->sessionStart
+               'session_start' => $this->sessionStart,
+               'session_date'  => $this->sessionDate
             );
 
            $check = $this->find($dadosSessao);
@@ -85,9 +86,11 @@ class Sessao extends Observador
                $this->sessionDate = $check['session_date'];
                $this->sessionStart = $check['session_start'];
                $this->sessionEnd = $dados->sessionEnd;
+               
                $parameters = array(
                    'session_end' => $this->sessionEnd
                );
+               
                return parent::update($this->sessaoId, 'tr_session', $parameters);
            }else{
                $dadosSessao = array(
