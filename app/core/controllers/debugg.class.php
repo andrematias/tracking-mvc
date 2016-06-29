@@ -11,42 +11,46 @@ use \App\Lib\Sessao;
 use \App\Lib\Url;
 use \App\Lib\Interesse;
 use \App\Lib\Origem;
+use \App\Lib\Base;
 
 class Debugg
 {
 
     function index()
     {
-        //$banco = new Banco();
-
-        $cliente = new Cliente();
-        $user    = new User();
-        $sessao  = new Sessao();
-        $url     = new Url();
+        $cliente   = new Cliente();
+        $user      = new User();
+        $sessao    = new Sessao();
+        $url       = new Url();
         $interesse = new Interesse();
-        $origem = new Origem();
-        
-        $api          = new \App\Lib\TrackingAPI();
-        //$api->cliente = 'http://blogar.com.br';
-        //$api->user    = 'Cardoso';
-        $api->url = 'http://bing.com.br';
-        $api->shortUrl = 'Bing';
-        //$api->sessionDate = '2016-06-30';
-        //$api->sessionStart = '14:00:00';
-        //$api->sessionEnd = '17:20:00';
-        //$api->interesse = 'interesse';
-        //$api->linhaDeNegocio = 'business Line';
-        //$api->origem = 'google';
-        //$api->score = '10';
+        $origem    = new Origem();
+        $base      = new Base();
 
+        $api                 = new \App\Lib\TrackingAPI();
+        $api->cliente        = 'http://dominio.com.br';
+        $api->user           = 'Cardoso';
+        $api->url            = 'http://gmail.com.br';
+        $api->shortUrl       = 'Email do Google';
+        $api->sessionDate    = '2016-07-02';
+        $api->sessionStart   = '11:45:00';
+        $api->sessionEnd     = '12:33:00';
+        $api->interesse      = 'Emails';
+        $api->linhaDeNegocio = 'Correios';
+        $api->origem         = 'Google';
+        $api->score          = '100';
+        $api->email          = 'andrersmatias@gmail.com';
+        $api->nome           = 'André Robson Souza Matias';
+        $api->pais           = 'Brasil';
 
-        //$api->incluirObservadores($cliente);
-        //$api->incluirObservadores($user);
-        //$api->incluirObservadores($interesse);
-        //$api->incluirObservadores($origem);
+        $api->incluirObservadores($cliente);
+        $api->incluirObservadores($user);
+        $api->incluirObservadores($interesse);
+        $api->incluirObservadores($origem);
         $api->incluirObservadores($url);
-        //$api->incluirObservadores($sessao);
+        $api->incluirObservadores($sessao);
+        $api->incluirObservadores($base);
         $api->notificar();
+
         
         echo '<pre>';
         var_dump($api);
