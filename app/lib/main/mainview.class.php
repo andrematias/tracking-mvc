@@ -57,11 +57,24 @@
 				'%%LINK_JS_MAIN%%'
 			);
 
+                        $scripts = array(
+                            '<script type="text/javascript" src="'.PUBLIC_PATH.'_js/jquery-1.10.2.js"></script>'."\n",
+                            '<script type="text/javascript" src="'.PUBLIC_PATH.'_js/gathere/main.js"></script>'."\n",
+                            '<script type="text/javascript" src="'.PUBLIC_PATH.'_js/hightchart/highcharts.js"></script>'."\n",
+                            '<script type="text/javascript" src="'.PUBLIC_PATH.'_js/main.js"></script>'
+                        );
+
+                        $styles = array(
+                            '<link rel="stylesheet" type="text/css" href="'.PUBLIC_PATH.'_css/style.css">'."\n",
+                            '<link href="http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext" rel="stylesheet" type="text/css">'
+                        );
+
 			$headerValues= array(
 				$pageTitle,
-				PUBLIC_PATH.'_css/style.css',
-				PUBLIC_PATH.'_js/main.js'
+                                implode('',$scripts),
+                                implode('',$styles)
 			);
+
 
 			//Substituindo os valores e retornando seu valor
 			return str_replace($headerArray, $headerValues, $header);
