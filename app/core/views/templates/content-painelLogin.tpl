@@ -1,4 +1,4 @@
-<article class="painelLogin">
+<section class="painelLogin">
 	<img src="%%IMAGE_LOGO%%" width="200">
 	<div class="%%CLASS_MSG%%">
 		<span>%%MSG_ERROR%%</span>
@@ -11,4 +11,4 @@
 		</select><br><br>
 		<input class="btn-blue" type="submit" name="op" value="Entrar">
 	</form>
-</article>
+</section>

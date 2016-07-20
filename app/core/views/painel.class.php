@@ -20,7 +20,7 @@ class Painel extends MainView{
 		//Carrega os templates
 		$header = parent::getDefaultHeader($this->_pageTitle);
 		$content = file_get_contents(TEMPLATES.'content-painelLogin.tpl');
-		$footer  = parent::getDefaultFooter();
+		$footer  = file_get_contents(TEMPLATES.'footer-painelLogin.tpl');
 
 		//Inclui o link do css
 		$header = str_replace('%%LINK_CSS_MAIN%%', PUBLIC_PATH.'_css/style.css', $header);
