@@ -190,6 +190,8 @@ class TrackingAPI extends Sujeito
 
         if( $key ){
             unset( $this->observadores[ $key ] );
+            //Reordenando os indices da lista de observadores
+            $this->observadores = array_values($this->observadores);
             return true;
         }else{
             return false;
