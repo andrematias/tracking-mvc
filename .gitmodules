@@ -1,0 +1,3 @@
+[submodule "public/_js/gathere"]
+	path = public/_js/gathere
+	url = https://andrematias@bitbucket.org/andrematias/gathere.git
