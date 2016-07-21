@@ -36,75 +36,7 @@
 				<th>Score</th>
 			</thead>
 			<tbody>
-				<tr>
-					<td>10/10/2016</td>
-					<td>Prospect</td>
-					<td>Others</td>
-					<td>Description</td>
-					<td>André Robson Souza Matias</td>
-					<td>andrersmatias@gmail.com</td>
-					<td>Scio/Proprietáio</td>
-					<td>Phone</td>
-					<td>Equiar Equipamentos Ltda</td>
-					<td>SBU</td>
-					<td>Address</td>
-					<td>Zip Code</td>
-					<td>City</td>
-					<td>State</td>
-					<td>Country</td>
-					<td>CNPJ</td>
-					<td>Source</td>
-					<td>Content</td>
-					<td>Time of Navigation</td>
-					<td>Lead</td>
-					<td>Score</td>
-				</tr>
-				<tr>
-					<td>10/10/2016</td>
-					<td>Prospect</td>
-					<td>Others</td>
-					<td>Description</td>
-					<td>André Robson Souza Matias</td>
-					<td>andrersmatias@gmail.com</td>
-					<td>Scio/Proprietáio</td>
-					<td>Phone</td>
-					<td>Equiar Equipamentos Ltda</td>
-					<td>SBU</td>
-					<td>Address</td>
-					<td>Zip Code</td>
-					<td>City</td>
-					<td>State</td>
-					<td>Country</td>
-					<td>CNPJ</td>
-					<td>Source</td>
-					<td>Content</td>
-					<td>Time of Navigation</td>
-					<td>Lead</td>
-					<td>Score</td>
-				</tr>
-				<tr>
-					<td>10/10/2016</td>
-					<td>Prospect</td>
-					<td>Others</td>
-					<td>Description</td>
-					<td>André Robson Souza Matias</td>
-					<td>andrersmatias@gmail.com</td>
-					<td>Scio/Proprietáio</td>
-					<td>Phone</td>
-					<td>Equiar Equipamentos Ltda</td>
-					<td>SBU</td>
-					<td>Address</td>
-					<td>Zip Code</td>
-					<td>City</td>
-					<td>State</td>
-					<td>Country</td>
-					<td>CNPJ</td>
-					<td>Source</td>
-					<td>Content</td>
-					<td>Time of Navigation</td>
-					<td>Lead</td>
-					<td>Score</td>
-				</tr>
+				%%USER_CONTENT_DATA%%
 			</tbody>
 		</table>
 	</section>
