@@ -18,7 +18,55 @@ class Relatorios extends MainController
 
 	function consolidado(){
 		$this->_view = new ViewRelatorios;
-		$this->_view->consolidado();
+                $dataResult = array(
+                    array(
+                    'data' => '21/07/2016',
+                    'email'=>'andre@gmail.com',
+                    'visitor' =>'',
+                    'subject' =>'',
+                    'description' =>'',
+                    'request' =>'',
+                    'function' =>'',
+                    'telefone' =>'',
+                    'empresa' =>'',
+                    'sbu' =>'',
+                    'endereco' =>'',
+                    'cep' =>'',
+                    'cidade' =>'',
+                    'estado' =>'',
+                    'pais' =>'',
+                    'cnpj' =>'',
+                    'origem' =>'',
+                    'content' =>'',
+                    'tempo_de_navegacao' =>'',
+                    'leadType' =>'',
+                    'score' =>'',
+                    ),
+                    array(
+                    'data' => '21/07/2016',
+                    'email'=>'andre@gmail.com',
+                    'visitor' =>'',
+                    'subject' =>'',
+                    'description' =>'',
+                    'request' =>'',
+                    'function' =>'',
+                    'telefone' =>'',
+                    'empresa' =>'',
+                    'sbu' =>'',
+                    'endereco' =>'',
+                    'cep' =>'',
+                    'cidade' =>'',
+                    'estado' =>'',
+                    'pais' =>'',
+                    'cnpj' =>'',
+                    'origem' =>'',
+                    'content' =>'',
+                    'tempo_de_navegacao' =>'',
+                    'leadType' =>'',
+                    'score' =>'',
+                    )
+                );
+		$this->_view->consolidado($dataResult);
 	}
 
 	function detalhado(){
