@@ -248,6 +248,7 @@ body {
   height: 40px;
   background-color: #009ee0;
   color: white;
+  padding: 0px 15px;
 }
 .conteiner .body .content .tr_dados table th,
 .conteiner .body .content .tr_dados table td {
