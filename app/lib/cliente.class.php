@@ -130,4 +130,14 @@ class Cliente extends Observador
     {
         return parent::selectAll('tr_cliente');
     }
+
+    /**
+     * Retorna o id do cliente procurado
+     * @param string $cliente
+     * @return int id cliente
+     */
+    public function getClienteId($cliente){
+        $id = parent::select('tr_cliente', ['id_cliente'], 'WHERE cliente = :cliente', [':cliente' => $cliente]);
+        return (int)$id['id_cliente'];
+    }
 }
