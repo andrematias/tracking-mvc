@@ -10,6 +10,11 @@ namespace App\Lib;
  */
 class User extends Observador
 {
+    /**
+     * Nome da tabela relacionada a classe User
+     * @var string
+     */
+    private $userTable = 'tr_user';
 
     /**
      * Identificação única para um usuário
@@ -76,7 +81,7 @@ class User extends Observador
      */
     public function newUser($userValues)
     {
-        return parent::salvar('tr_user', $userValues);
+        return parent::salvar($this->userTable, $userValues);
     }
 
     /**
@@ -98,7 +103,7 @@ class User extends Observador
      */
     public function find($userHash)
     {
-        $user = parent::select('tr_user', ['id_user', 'id_cliente', 'user'], 'WHERE user = :user', [':user' => $userHash]);
+        $user = parent::select($this->userTable, ['id_user', 'id_cliente', 'user'], 'WHERE user = :user', [':user' => $userHash]);
         if (!empty($user)) {
             return $user;
         }
@@ -156,6 +161,16 @@ class User extends Observador
     public function setUserId($id)
     {
         $this->userId = $$id;
+    }
+
+    /**
+     * Retorna todos os ids dos usuários do cliente procurado
+     * @param int $clienteId
+     * @return array com todos os ids de usuários
+     */
+    public function allUsersFromCliente($clienteId)
+    {
+        return parent::selectAll($this->userTable, ['id_user'], 'WHERE id_cliente = :clienteId', [':clienteId' => $clienteId]);
     }
     
 }
