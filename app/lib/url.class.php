@@ -66,7 +66,7 @@ class Url extends Observador
         //Verifica, salva ou atualiza
         $this->clienteId = $this->clienteId($dados->cliente);
         $this->interesseId = $this->interesseId($dados->interesse, $dados->linhaDeNegocio);
-        $this->origemId = $this->OrigemId($dados->origem, $dados->score);
+        $this->origemId = $this->origemId($dados->origem, $dados->score);
         $this->shortUrl = $dados->shortUrl;
         $this->url = $dados->url;
 
@@ -137,7 +137,7 @@ class Url extends Observador
      * @param int $score
      * @return int
      */
-    private function OrigemId($origem, $score)
+    private function origemId($origem, $score)
     {
         $id = parent::select('tr_source', ['id_source'], 'WHERE source = :origem AND default_score = :score', [':origem' => $origem, ':score'=>$score]);
         $this->origemId = ($id) ? (int)$id['id_source'] : null;
