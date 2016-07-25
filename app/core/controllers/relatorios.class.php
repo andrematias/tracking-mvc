@@ -6,71 +6,27 @@ namespace App\Core\Controllers;
 
 use App\Lib\Main\MainController AS MainController;
 use App\Core\Views\Relatorios AS ViewRelatorios;
+use App\Core\Models\Results AS ModelResults;
 
 class Relatorios extends MainController
 {
 	public $view;
+	public $model;
 	
-	function index()
+	public function index()
 	{
 		$this->consolidado();
 	}
 
-	function consolidado(){
-		$this->_view = new ViewRelatorios;
-                $dataResult = array(
-                    array(
-                    'data' => '21/07/2016',
-                    'email'=>'andre@gmail.com',
-                    'visitor' =>'',
-                    'subject' =>'',
-                    'description' =>'',
-                    'request' =>'',
-                    'function' =>'',
-                    'telefone' =>'',
-                    'empresa' =>'',
-                    'sbu' =>'',
-                    'endereco' =>'',
-                    'cep' =>'',
-                    'cidade' =>'',
-                    'estado' =>'',
-                    'pais' =>'',
-                    'cnpj' =>'',
-                    'origem' =>'',
-                    'content' =>'',
-                    'tempo_de_navegacao' =>'',
-                    'leadType' =>'',
-                    'score' =>'',
-                    ),
-                    array(
-                    'data' => '21/07/2016',
-                    'email'=>'andre@gmail.com',
-                    'visitor' =>'',
-                    'subject' =>'',
-                    'description' =>'',
-                    'request' =>'',
-                    'function' =>'',
-                    'telefone' =>'',
-                    'empresa' =>'',
-                    'sbu' =>'',
-                    'endereco' =>'',
-                    'cep' =>'',
-                    'cidade' =>'',
-                    'estado' =>'',
-                    'pais' =>'',
-                    'cnpj' =>'',
-                    'origem' =>'',
-                    'content' =>'',
-                    'tempo_de_navegacao' =>'',
-                    'leadType' =>'',
-                    'score' =>'',
-                    )
-                );
-		$this->_view->consolidado($dataResult);
+	public function consolidado(){
+		$this->view = new ViewRelatorios;
+		$this->model = new ModelResults();
+		$this->view->consolidado($this->model->consolidado());
+                $this->model->consolidado2();
 	}
 
-	function detalhado(){
-		$this->_view  = new ViewRelatorios;
-		$this->_view->detalhado();
+	public function detalhado(){
+		$this->view  = new ViewRelatorios;
+		$this->view->detalhado();
 	}
 }
