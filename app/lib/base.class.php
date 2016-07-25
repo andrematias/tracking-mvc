@@ -10,6 +10,12 @@ namespace App\Lib;
 class Base extends Observador
 {
     /**
+     * Nome da tabela do banco de dados referente a classe
+     * @var string
+     */
+    private $baseTable = 'tr_base';
+
+    /**
      * Identificação dos dados na base
      * @var int
      */
@@ -177,7 +183,7 @@ class Base extends Observador
             $up = \array_diff($vars, $check);
 
             //Atualiza o banco com os valores diferentes
-            return parent::update($this->baseId, 'tr_base', $up);
+            return parent::update($this->baseId, $this->baseTable, $up);
         } else {
             $baseValues = array(
                 'id_cliente' => $this->clienteId,
@@ -210,7 +216,7 @@ class Base extends Observador
      */
     public function newBase(Array $baseValues)
     {
-        return parent::salvar('tr_base', $baseValues);
+        return parent::salvar($this->baseTable, $baseValues);
     }
 
     /**
@@ -267,7 +273,7 @@ class Base extends Observador
             $cond = \trim(\rtrim($cond, ' AND '));
         }
 
-        $base = parent::select('tr_base', [], 'WHERE '.$cond, $arr);
+        $base = parent::select($this->baseTable, [], 'WHERE '.$cond, $arr);
         return ($base) ? $base : null;
     }
 
@@ -289,5 +295,9 @@ class Base extends Observador
     public function get($property)
     {
         return $this->{$property};
+    }
+
+    public function allFromUser($userId){
+        return parent::select($this->baseTable, [], 'WHERE id_user = :idUser', [':idUser' => $userId]);
     }
 }
