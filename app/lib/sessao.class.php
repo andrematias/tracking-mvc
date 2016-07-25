@@ -9,6 +9,7 @@ namespace App\Lib;
  */
 class Sessao extends Observador
 {
+    private $sessionTable = 'tr_session';
     /**
      * Identificação única para a sessão atual
      * @var int
@@ -91,7 +92,7 @@ class Sessao extends Observador
                    'session_end' => $this->sessionEnd
                );
                
-               return parent::update($this->sessaoId, 'tr_session', $parameters);
+               return parent::update($this->sessaoId, $this->sessionTable, $parameters);
            }else{
                $dadosSessao = array(
                 'session_date'  => $this->sessionDate,
@@ -127,7 +128,7 @@ class Sessao extends Observador
      */
     public function newSession(Array $dadosSessao)
     {
-        return parent::salvar('tr_session', $dadosSessao);
+        return parent::salvar($this->sessionTable, $dadosSessao);
     }
 
     /**
@@ -163,7 +164,7 @@ class Sessao extends Observador
 
             $cond = (trim(rtrim($cond, ' AND ')));
         }
-        $link = parent::select('tr_session', array(), 'WHERE '.$cond, $arr);
+        $link = parent::select($this->sessionTable, array(), 'WHERE '.$cond, $arr);
         return (!empty($link)) ? $link : false;
     }
 
@@ -296,5 +297,31 @@ class Sessao extends Observador
     public function setSessionEnd($sessionEnd)
     {
         $this->sessionEnd = $sessionEnd;
+    }
+
+    /**
+     * Retorna o tempo total de navegação do usuário no mês
+     * @param int $userId
+     * @return array
+     */
+    public function navigationTime($userId)
+    {
+        $conn = parent::getConn();
+        $query = $conn->prepare('SELECT session_date, SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(session_end, session_start)))) AS tempo_de_navegacao FROM '.$this->sessionTable.' WHERE id_user = :userID GROUP BY MONTH(session_date) DESC');
+        $query->execute([':userID' => $userId]);
+        return $query->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Retorna a quantidade de páginas visitadas por um usuário durante o mês
+     * @param int $userId
+     * @return array
+     */
+    public function countContent($userId)
+    {
+        $conn = parent::getConn();
+        $query = $conn->prepare('SELECT  session_date, COUNT(id_user) as content FROM '.$this->sessionTable.' WHERE id_user = :userID GROUP BY MONTH(session_date) DESC');
+        $query->execute([':userID' => $userId]);
+        return $query->fetch(\PDO::FETCH_ASSOC);
     }
 }
