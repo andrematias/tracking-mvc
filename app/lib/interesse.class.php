@@ -10,6 +10,8 @@ namespace App\Lib;
 class Interesse extends Observador
 {
 
+    private $interestTable = 'tr_type';
+
     /**
      * Identificação do interesse
      * @var int
@@ -74,7 +76,7 @@ class Interesse extends Observador
      */
     public function newInteresse(Array $interesseValues)
     {
-        return parent::Salvar('tr_type', $interesseValues);
+        return parent::Salvar($this->interestTable, $interesseValues);
     }
 
     /**
@@ -112,7 +114,7 @@ class Interesse extends Observador
             $cond = \trim(\rtrim($cond, ' AND '));
         }
 
-        $interesse = parent::Select('tr_type', [], 'WHERE ' . $cond, $arr);
+        $interesse = parent::Select($this->interestTable, [], 'WHERE ' . $cond, $arr);
 
         return ($interesse) ? $interesse : null;
     }
@@ -177,6 +179,51 @@ class Interesse extends Observador
      */
     public function listarInteresses()
     {
-        return parent::SelectAll('tr_type');
+        return parent::SelectAll($this->interestTable);
+    }
+
+
+    /**
+     * Retorna uma string com todos os interesses do usuário, baseando-se nas
+     * urls visitadas
+     * @param int $userId
+     * @return string
+     */
+    public function getUserInterest($userId)
+    {
+        $conn = parent::getConn();
+        $query = $conn->prepare('SELECT type_interest FROM '.$this->interestTable.' JOIN tr_url USING(id_type) JOIN tr_session USING(id_url) JOIN tr_user USING(id_user) WHERE id_user = :userId GROUP BY type_interest');
+        $query->execute([':userId' => $userId]);
+        $result = $query->fetchAll(\PDO::FETCH_ASSOC);
+
+        $out = null;
+
+        foreach ($result as $interesse){
+            $out .= $interesse['type_interest'] . ', ';
+        }
+
+        return rtrim($out, ', ');
+    }
+
+     /**
+     * Retorna uma string com todos as origens do usuário, baseando-se nas
+     * urls visitadas
+     * @param int $userId
+     * @return string
+     */
+    public function getUserBusinessLine($userId)
+    {
+        $conn = parent::getConn();
+        $query = $conn->prepare('SELECT type_bl FROM '.$this->interestTable.' JOIN tr_url USING(id_type) JOIN tr_session USING(id_url) JOIN tr_user USING(id_user) WHERE id_user = :userId GROUP BY type_interest');
+        $query->execute([':userId' => $userId]);
+        $result = $query->fetchAll(\PDO::FETCH_ASSOC);
+
+        $out = null;
+
+        foreach ($result as $interesse){
+            $out .= $interesse['type_bl'] . ', ';
+        }
+
+        return rtrim($out, ', ');
     }
 }
