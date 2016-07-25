@@ -8,6 +8,8 @@ namespace App\Lib;
  */
 class Url extends Observador
 {
+
+    private $urlTable = 'tr_url';
     /**
      * Identificação da URL
      * @var int
@@ -84,7 +86,7 @@ class Url extends Observador
            if(!empty($this->interesseId) && $this->interesseId != $check['id_type']){
                $parameters['id_type'] = $this->interesseId;
            }
-           return parent::update($this->urlId, 'tr_url', $parameters);
+           return parent::update($this->urlId, $this->urlTable, $parameters);
         }else{
             $urlValues = array(
                 'url'        => $this->url,
@@ -101,7 +103,7 @@ class Url extends Observador
     
     public function newUrl($urlValues)
     {
-        return parent::Salvar('tr_url', $urlValues);
+        return parent::Salvar($this->urlTable, $urlValues);
     }
 
     /**
@@ -149,7 +151,7 @@ class Url extends Observador
      */
     public function find($url)
     {
-        $link = parent::select('tr_url', ['id_url', 'id_cliente', 'id_type', 'id_type', 'id_source', 'url', 'short_url'], 'WHERE url = :url', [':url' => $url]);
+        $link = parent::select($this->urlTable, ['id_url', 'id_cliente', 'id_type', 'id_type', 'id_source', 'url', 'short_url'], 'WHERE url = :url', [':url' => $url]);
         return ( $link )? $link : false;
     }
 
@@ -267,7 +269,7 @@ class Url extends Observador
      */
     public function listUrls()
     {
-        return parent::selectAll('tr_url');
+        return parent::selectAll($this->urlTable);
     }
 
 }
