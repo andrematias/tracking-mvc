@@ -179,4 +179,62 @@ class Origem extends Observador
     {
         return parent::SelectAll('tr_source');
     }
+    
+    /**
+     * Retorna todas as origens de um usuário separada por "," baseado na 
+     * navegação entre as urls das sessões
+     * @param int $userId
+     * @return string todas as origens separadas por ","
+     */
+    public function getOrigensByUserId($userId)
+    {
+        $conn = parent::getConn();
+        $query = $conn->prepare(
+            "SELECT source AS origem FROM tr_source "
+            . "JOIN tr_url USING(id_source)"
+            . "JOIN tr_session USING(id_url)"
+            . "JOIN tr_user USING(id_user)"
+            . "WHERE id_user = :userId "
+            . "GROUP BY origem"
+        );
+        
+        $query->execute([':userId' => $userId]);
+        $results = $query->fetchAll(\PDO::FETCH_ASSOC);
+        
+        $out = null;
+        
+        foreach ($results as $result){
+            $out .= $result['origem'].", ";
+        }
+        
+        return \rtrim($out, ', ');
+    }
+    
+    /**
+     * Retorna a soma de todos os scores acumulados durante as sessões do usuário
+     * @param int $userId
+     * @return int soma dos scores
+     */
+    public function getScoreByUserId($userId)
+    {
+        $conn = parent::getConn();
+        $query = $conn->prepare(
+            "SELECT default_score AS score FROM tr_source "
+            . "JOIN tr_url USING(id_source)"
+            . "JOIN tr_session USING(id_url)"
+            . "JOIN tr_user USING(id_user)"
+            . "WHERE id_user = :userId "
+        );
+        
+        $query->execute([':userId' => $userId]);
+        $results = $query->fetchAll(\PDO::FETCH_ASSOC);
+        
+        $score = null;
+        
+        foreach ($results as $result){
+            $score += (int)$result['score'];
+        }
+        
+        return $score;
+    }
 }
