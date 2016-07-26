@@ -304,11 +304,15 @@ class Sessao extends Observador
      * @param int $userId
      * @return array
      */
-    public function navigationTime($userId)
+    public function navigationTime($userId, $dateStart, $dateEnd)
     {
         $conn = parent::getConn();
-        $query = $conn->prepare('SELECT session_date, SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(session_end, session_start)))) AS tempo_de_navegacao FROM '.$this->sessionTable.' WHERE id_user = :userID GROUP BY MONTH(session_date) DESC');
-        $query->execute([':userID' => $userId]);
+        $query = $conn->prepare('SELECT session_date, SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(session_end, session_start)))) AS tempo_de_navegacao FROM '.$this->sessionTable.' WHERE id_user = :userID AND session_date BETWEEN :sessionStart AND :sessionEnd GROUP BY MONTH(session_date) DESC');
+        $query->execute([
+            ':userID' => $userId,
+            ':sessionStart' => $dateStart,
+            ':sessionEnd' => $dateEnd
+        ]);
         return $query->fetch(\PDO::FETCH_ASSOC);
     }
 
@@ -317,11 +321,15 @@ class Sessao extends Observador
      * @param int $userId
      * @return array
      */
-    public function countContent($userId)
+    public function countContent($userId, $dateStart, $dateEnd)
     {
         $conn = parent::getConn();
-        $query = $conn->prepare('SELECT  session_date, COUNT(id_user) as content FROM '.$this->sessionTable.' WHERE id_user = :userID GROUP BY MONTH(session_date) DESC');
-        $query->execute([':userID' => $userId]);
+        $query = $conn->prepare('SELECT  session_date, COUNT(id_user) as content FROM '.$this->sessionTable.' WHERE id_user = :userID AND session_date BETWEEN :sessionStart AND :sessionEnd GROUP BY MONTH(session_date) DESC');
+        $query->execute([
+            ':userID' => $userId,
+            ':sessionStart' => $dateStart,
+            ':sessionEnd' => $dateEnd
+        ]);
         return $query->fetch(\PDO::FETCH_ASSOC);
     }
 }
