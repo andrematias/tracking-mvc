@@ -11,22 +11,25 @@ use App\Core\Models\Results AS ModelResults;
 class Relatorios extends MainController
 {
 	public $view;
+        
 	public $model;
 	
 	public function index()
 	{
-		$this->consolidado();
+            MainController::toLogin();
+            $this->consolidado();
 	}
 
 	public function consolidado(){
-		$this->view = new ViewRelatorios;
-		$this->model = new ModelResults();
-		$this->view->consolidado($this->model->consolidado());
-                $this->model->consolidado2();
+            MainController::toLogin();
+            $this->view = new ViewRelatorios;
+            $this->model = new ModelResults();
+            $this->view->consolidado($this->model->consolidado());
 	}
 
 	public function detalhado(){
-		$this->view  = new ViewRelatorios;
-		$this->view->detalhado();
+            MainController::toLogin();
+            $this->view  = new ViewRelatorios;
+            $this->view->detalhado();
 	}
 }
