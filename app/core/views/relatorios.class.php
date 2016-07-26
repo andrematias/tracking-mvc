@@ -12,7 +12,7 @@ class Relatorios extends MainView
 {
 	public $pageTitle;
 	
-	function consolidado($resultDataConsolidado)
+	public function consolidado($resultDataConsolidado)
 	{
 		$this->pageTitle = 'Trakcing::Relatório Consolidado';
 
@@ -25,16 +25,16 @@ class Relatorios extends MainView
                 $contentResult = null;
                 foreach ($resultDataConsolidado as $result) {
                     $contentResult .= '<tr>'."\n"
-                    .'<td>'.$result['data'].'</td>'."\n"
+                    .'<td>'.$result['session_date'].'</td>'."\n"
                     .'<td>'.$result['visitor'].'</td>'."\n"
 		    .'<td>'.$result['subject'].'</td>'."\n"
 		    .'<td>'.$result['description'].'</td>'."\n"
-                    .'<td>'.$result['request'].'</td>'."\n"
+                    .'<td>'.$result['nome'].'</td>'."\n"
                     .'<td>'.$result['email'].'</td>'."\n"
-                    .'<td>'.$result['function'].'</td>'."\n"
+                    .'<td>'.$result['cargo'].'</td>'."\n"
                     .'<td>'.$result['telefone'].'</td>'."\n"
                     .'<td>'.$result['empresa'].'</td>'."\n"
-                    .'<td>'.$result['sbu'].'</td>'."\n"
+                    .'<td>'.$result['uf'].'</td>'."\n"
                     .'<td>'.$result['endereco'].'</td>'."\n"
                     .'<td>'.$result['cep'].'</td>'."\n"
                     .'<td>'.$result['cidade'].'</td>'."\n"
@@ -44,9 +44,9 @@ class Relatorios extends MainView
                     .'<td>'.$result['origem'].'</td>'."\n"
                     .'<td>'.$result['content'].'</td>'."\n"
                     .'<td>'.$result['tempo_de_navegacao'].'</td>'."\n"
-                    .'<td>'.$result['leadType'].'</td>'."\n"
+                    .'<td>'.$result['lead_type'].'</td>'."\n"
                     .'<td>'.$result['score'].'</td>'."\n"
-                    . '</tr>'."\n";
+                    .'</tr>'."\n";
                 }
 
                 $tagsContent = array(
@@ -61,11 +61,13 @@ class Relatorios extends MainView
 
 
 		$content = str_replace($tagsContent, $contentData, $content);
+
+                parent::showMessages();
 		echo $content;
 		echo parent::getDefaultFooter();
 	}
 
-	function detalhado()
+	public function detalhado()
 	{
 		$this->pageTitle = 'Trakcing::Relatório Detalhado';
 
