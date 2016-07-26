@@ -55,7 +55,6 @@ class Results extends \App\Lib\Main\MainModel
         pais,
         cnpj,
         source AS origem,
-        session_date AS data,
         lead_type AS leadType,
         SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(session_end, session_start)))) AS tempo_de_navegacao,
         COUNT(id_user) as content,
@@ -106,19 +105,22 @@ class Results extends \App\Lib\Main\MainModel
         foreach ($this->userId as $id){
             $this->interesses = $interesse->getUserInterest($id['id_user']);
             $this->businessLine = $interesse->getUserBusinessLine($id['id_user']);
+            $this->origem = $origem->getOrigensByUserId($id['id_user']);
+            $this->score = $origem->getScoreByUserId($id['id_user']);
+            
 
             $merge = \array_merge(
                 $sessao->navigationTime($id['id_user']),
                 $base->allFromUser($id['id_user']),
                 $sessao->countContent($id['id_user']),
                 array('interesses' => $this->interesses),
-                array('businessLine' => $this->businessLine)
+                array('businessLine' => $this->businessLine),
+                array('origem' => $this->origem),
+                array('score' => $this->score)
             );
             
             $out[] = $merge;
         }
-        
-        echo "<pre>";
-        var_dump($out);
+        return $out;
     }
 }
