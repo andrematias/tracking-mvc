@@ -61,12 +61,15 @@
                             '<script type="text/javascript" src="'.PUBLIC_PATH.'_js/jquery-1.10.2.js"></script>'."\n",
                             '<script type="text/javascript" src="'.PUBLIC_PATH.'_js/gathere/main.js"></script>'."\n",
                             '<script type="text/javascript" src="'.PUBLIC_PATH.'_js/hightchart/highcharts.js"></script>'."\n",
-                            '<script type="text/javascript" src="'.PUBLIC_PATH.'_js/main.js"></script>'
+                            '<script type="text/javascript" src="'.PUBLIC_PATH.'_js/main.js"></script>',
+                            '<script src="'.PUBLIC_PATH.'_js/jquery-ui.js"></script>
+'
                         );
 
                         $styles = array(
                             '<link rel="stylesheet" type="text/css" href="'.PUBLIC_PATH.'_css/style.css">'."\n",
-                            '<link href="http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext" rel="stylesheet" type="text/css">'
+                            '<link href="http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext" rel="stylesheet" type="text/css">'."\n",
+                            '<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">'
                         );
 
 			$headerValues= array(
@@ -155,4 +158,17 @@
 		public function getDefaultFooter(){
 			return file_get_contents(TEMPLATES.'/_includes/footer.tpl');
 		}
+
+                public function getDefaultPeriod(){
+                    $period = file_get_contents(TEMPLATES.'_includes/period.tpl');
+                    $periodTags = array(
+                        '%%CLIENTE%%'
+                    );
+
+                    $periodTagValues = array(
+                        $_SESSION['cliente']
+                    );
+
+                    return str_replace($periodTags, $periodTagValues, $period);
+                }
 	}
