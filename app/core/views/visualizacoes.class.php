@@ -25,6 +25,7 @@
 			echo parent::getDefaultHeader($this->_pageTitle);
 			echo parent::getDefaultNav();
 			echo parent::getDefaultSidebar();
+			echo parent::getDefaultPeriod();
 
 			//Tratando o conteúdo da página
 			$content = file_get_contents(TEMPLATES.'/visualizacoes_periodo.tpl');
@@ -78,6 +79,8 @@
 			echo parent::getDefaultHeader($this->_pageTitle);
 			echo parent::getDefaultNav();
 			echo parent::getDefaultSidebar();
+                        echo parent::getDefaultPeriod();
+
 
 			//Tratando o conteúdo da página
 			$content = file_get_contents(TEMPLATES.'/visualizacoes_assunto.tpl');

@@ -19,6 +19,8 @@ class Relatorios extends MainView
 		echo parent::getDefaultHeader($this->pageTitle);
 		echo parent::getDefaultNav();
 		echo parent::getDefaultSidebar();
+		echo parent::getDefaultPeriod();
+                
 		$content = file_get_contents(TEMPLATES.'/relatorio_consolidado.tpl');
 
                 //Montando as linhas da tabela com os dados do Model
@@ -74,6 +76,8 @@ class Relatorios extends MainView
 		echo parent::getDefaultHeader($this->pageTitle);
 		echo parent::getDefaultNav();
 		echo parent::getDefaultSidebar();
+                echo parent::getDefaultPeriod();
+                
 		$content = file_get_contents(TEMPLATES.'/relatorio_detalhado.tpl');
 		
 		echo $content;
