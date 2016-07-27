@@ -185,7 +185,8 @@ body {
   padding: 5px 10px;
   width: 100%;
 }
-.conteiner .body .cabecalho_content input[type="date"] {
+.conteiner .body .cabecalho_content input[type="text"]#datepicker1,
+.conteiner .body .cabecalho_content input[type="text"]#datepicker2 {
   width: 130px;
 }
 .conteiner .body .cabecalho_content input[type="submit"] {
