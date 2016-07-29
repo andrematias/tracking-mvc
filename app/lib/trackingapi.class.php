@@ -10,6 +10,17 @@ namespace App\Lib;
  */
 class TrackingAPI extends Sujeito
 {
+    public $taxonomy;
+
+    public $term;
+
+    public $taxonomyDescription;
+
+    public $taxonomyCount;
+
+    public $taxonomyObjectId;
+
+
     /**
      * Lista de observadores
      * @var array
