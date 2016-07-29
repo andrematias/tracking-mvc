@@ -15,8 +15,6 @@ use App\Lib\Base;
 use App\Lib\Sessao;
 use App\Lib\User;
 use App\Lib\Cliente;
-use App\Lib\Origem;
-use \App\Lib\Interesse;
 
 
 class Results extends \App\Lib\Main\MainModel
@@ -53,8 +51,7 @@ class Results extends \App\Lib\Main\MainModel
         $sessao = new Sessao;
         $user = new User;
         $cliente = new Cliente;
-        $origem = new Origem;
-        $interesse = new Interesse;
+
 
         //Recupera o id do cliente atual
         $this->clienteId = $cliente->getClienteId($_SESSION['cliente']);
@@ -76,10 +73,6 @@ class Results extends \App\Lib\Main\MainModel
 
             /*Atribui os valores das classes externas aos atributos da classe atual*/
 
-            $this->interesses = $interesse->getUserInterest($id['id_user']);
-            $this->businessLine = $interesse->getUserBusinessLine($id['id_user']);
-            $this->origem = $origem->getOrigensByUserId($id['id_user']);
-            $this->score = $origem->getScoreByUserId($id['id_user']);
             $this->timeNavigation = $sessao->navigationTime($id['id_user'], $this->startDate, $this->endDate);
             $this->infoUser = $base->allFromUser($id['id_user']);
             $this->totalContent = $sessao->countContent($id['id_user'], $this->startDate, $this->endDate);

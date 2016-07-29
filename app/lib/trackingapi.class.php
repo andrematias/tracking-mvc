@@ -29,12 +29,6 @@ class TrackingAPI extends Sujeito
     public $url;
 
     /**
-     * Nome abreviado para um link
-     * @var string
-     */
-    public $shortUrl;
-
-    /**
      * Endereço da empresa
      * @var string
      */
@@ -112,29 +106,6 @@ class TrackingAPI extends Sujeito
      */
     public $leadType = 'Indireto';
 
-    /**
-     * Origem dos dados configurado no painel da app
-     * @var string
-     */
-    public $origem;
-
-    /**
-     * tipo de interesse do usuário, configurado no painel da app
-     * @var string
-     */
-    public $interesse;
-
-    /**
-     * Tipo da Businness Line configurado no painel da app
-     * @var string
-     */
-    public $linhaDeNegocio;
-
-    /**
-     * Pontuação para a URL, Tempo e Origem, configurado no painel da app
-     * @var int
-     */
-    public $score;
 
     /**
      * Nome do cliente que esta sendo rastreado

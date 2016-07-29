@@ -12,8 +12,6 @@ use \App\Lib\Cliente;
 use \App\Lib\User;
 use \App\Lib\Sessao;
 use \App\Lib\Url;
-use \App\Lib\Interesse;
-use \App\Lib\Origem;
 use \App\Lib\Base;
 
 class ListeningGathere
@@ -26,8 +24,6 @@ class ListeningGathere
         $user      = new User();
         $sessao    = new Sessao();
         $url       = new Url();
-        $interesse = new Interesse();
-        $origem    = new Origem();
         $base      = new Base();
 
         //Preenchimento do Sujeito
@@ -62,8 +58,6 @@ class ListeningGathere
         //Inclui os Observadores no sujeito
         $api->incluirObservadores($cliente);
         $api->incluirObservadores($user);
-        $api->incluirObservadores($interesse);
-        $api->incluirObservadores($origem);
         $api->incluirObservadores($url);
         $api->incluirObservadores($sessao);
         $api->incluirObservadores($base);
@@ -75,12 +69,6 @@ class ListeningGathere
         }
         if( empty($api->email) ){
             $api->removerObservadores($base);
-        }
-        if(empty($api->origem) && empty($api->score)){
-            $api->removerObservadores($origem);
-        }
-        if(empty($api->interesse) && empty($api->linhaDeNegocio)){
-            $api->removerObservadores($interesse);
         }
         if(empty($api->url)){
             $api->removerObservadores($url);

@@ -64,10 +64,7 @@ class Url extends Observador
     public function atualizar(Sujeito $dados)
     {
         //Verifica, salva ou atualiza
-        $this->clienteId = $this->clienteId($dados->cliente);
-        $this->interesseId = $this->interesseId($dados->interesse, $dados->linhaDeNegocio);
-        $this->origemId = $this->origemId($dados->origem, $dados->score);
-        $this->shortUrl = $dados->shortUrl;
+        $this->clienteId = $this->clienteId($dados->cliente);      
         $this->url = $dados->url;
 
         $check = $this->find($this->url);
@@ -75,25 +72,11 @@ class Url extends Observador
            $this->urlId = $check['id_url'];
            $this->url = $check['url'];
            $parameters = array();
-           if(!empty($this->shortUrl) && $this->shortUrl != $check['short_url']){
-                $parameters['short_url'] = $this->shortUrl;
-           }
-           
-           if(!empty($this->origemId) && $this->origemId != $check['id_source']){
-               $parameters['id_source'] = $this->origemId;
-           }
-
-           if(!empty($this->interesseId) && $this->interesseId != $check['id_type']){
-               $parameters['id_type'] = $this->interesseId;
-           }
            return parent::update($this->urlId, $this->urlTable, $parameters);
         }else{
             $urlValues = array(
                 'url'        => $this->url,
-                'short_url'  => $this->shortUrl,
-                'id_cliente' => $this->clienteId,
-                'id_source'  => $this->origemId,
-                'id_type'    => $this->interesseId
+                'id_cliente' => $this->clienteId
             );
 
             $new = $this->newUrl($urlValues);
@@ -118,31 +101,6 @@ class Url extends Observador
         return $this->clienteId;
     }
 
-    /**
-     * Configura e retorna o id do interesse cadastrado para a url atual
-     * @param string $interesse
-     * @param string $bl
-     * @return int
-     */
-    private function interesseId($interesse, $bl)
-    {
-        $id = parent::select('tr_type', ['id_type'], 'WHERE type_interest = :interesse AND type_bl = :linha', [':interesse' => $interesse, ':linha' => $bl]);
-        $this->interesseId = ($id) ? (int)$id['id_type'] : null;
-        return $this->interesseId;
-    }
-
-    /**
-     * Configura e retorna o id da Origem configurado na url atual
-     * @param string $origem
-     * @param int $score
-     * @return int
-     */
-    private function origemId($origem, $score)
-    {
-        $id = parent::select('tr_source', ['id_source'], 'WHERE source = :origem AND default_score = :score', [':origem' => $origem, ':score'=>$score]);
-        $this->origemId = ($id) ? (int)$id['id_source'] : null;
-        return $this->origemId;
-    }
 
     /**
      * Retorna os dados da url procurada
@@ -174,24 +132,6 @@ class Url extends Observador
     }
 
     /**
-     * Retorna a id da origem da url atual
-     * @return int
-     */
-    public function getOrigemId()
-    {
-        return $this->origemId;
-    }
-
-    /**
-     * Retorna a id do interesse da url atual
-     * @return int
-     */
-    public function getInteresseId()
-    {
-        return $this->interesseId;
-    }
-
-    /**
      * Retorna a url atual
      * @return string
      */
@@ -200,14 +140,6 @@ class Url extends Observador
         return $this->url;
     }
 
-    /**
-     * Retorna o apelido da URL atual
-     * @return string
-     */
-    public function getShortUrl()
-    {
-        return $this->shortUrl;
-    }
 
    /**
     * Configura a id da url
@@ -227,23 +159,6 @@ class Url extends Observador
         $this->clienteId = $clienteId;
     }
 
-   /**
-    * Configura a id da origem na url
-    * @param int $origemId
-    */
-    public function setOrigemId($origemId)
-    {
-        $this->origemId = $origemId;
-    }
-
-    /**
-     * Configura a id para o interesse da url atual
-     * @param int $interesseId
-     */
-    public function setInteresseId($interesseId)
-    {
-        $this->interesseId = $interesseId;
-    }
 
     /**
      * Configura a url
@@ -252,15 +167,6 @@ class Url extends Observador
     public function setUrl($url)
     {
         $this->url = $url;
-    }
-
-    /**
-     * Configura o apelido para a url
-     * @param string $shortUrl
-     */
-    public function setShortUrl($shortUrl)
-    {
-        $this->shortUrl = $shortUrl;
     }
 
     /**
