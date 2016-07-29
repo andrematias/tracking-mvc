@@ -112,6 +112,12 @@ class Base extends Observador
     private $leadType;
 
     /**
+     * Ultimo comentário
+     * @var string
+     */
+    private $lastComment;
+
+    /**
      * Construtor da classe
      */
     public function __construct()
@@ -127,21 +133,22 @@ class Base extends Observador
      */
     public function atualizar(Sujeito $dados)
     {
-        $this->clienteId = $this->clienteId($dados->cliente);
-        $this->userId    = $this->userId($dados->user);
-        $this->email     = $dados->email;
-        $this->nome      = $dados->nome;
-        $this->empresa   = $dados->empresa;
-        $this->cargo     = $dados->cargo;
-        $this->endereco  = $dados->endereco;
-        $this->cep       = $dados->cep;
-        $this->estado    = $dados->estado;
-        $this->cidade    = $dados->cidade;
-        $this->pais      = $dados->pais;
-        $this->cnpj      = $dados->cnpj;
-        $this->ramo      = $dados->ramo;
-        $this->telefone  = $dados->telefone;
-        $this->leadType  = $dados->leadType;
+        $this->clienteId    = $this->clienteId($dados->cliente);
+        $this->userId       = $this->userId($dados->user);
+        $this->email        = $dados->email;
+        $this->nome         = $dados->nome;
+        $this->empresa      = $dados->empresa;
+        $this->cargo        = $dados->cargo;
+        $this->endereco     = $dados->endereco;
+        $this->cep          = $dados->cep;
+        $this->estado       = $dados->estado;
+        $this->cidade       = $dados->cidade;
+        $this->pais         = $dados->pais;
+        $this->cnpj         = $dados->cnpj;
+        $this->ramo         = $dados->ramo;
+        $this->telefone     = $dados->telefone;
+        $this->leadType     = $dados->leadType;
+        $this->lastComment  = $dados->lastComment;
 
 
         $baseParams = array(
@@ -168,7 +175,8 @@ class Base extends Observador
                 'cep' => $this->cep,
                 'endereco' => $this->endereco,
                 'cargo' => $this->cargo,
-                'lead_type' => $this->leadType
+                'lead_type' => $this->leadType,
+                'last_comment' => $this->lastComment
             );
 
             //Remove os valores vazios do array vars
@@ -200,7 +208,8 @@ class Base extends Observador
                 'cep' => $this->cep,
                 'endereco' => $this->endereco,
                 'cargo' => $this->cargo,
-                'lead_type' => $this->leadType
+                'lead_type' => $this->leadType,
+                'last_comment' => $this->lastComment
             );
 
             $new = $this->newBase($baseValues);
