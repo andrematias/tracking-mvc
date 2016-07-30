@@ -4,10 +4,14 @@
  * Classe reponsável por atribuir taxonomias aos objetos
  * Atribui, busca e exclui caracteristicas únicas para
  * o objeto referenciado
+ * 
  * @author André Matias
+ * @version 0.1
+ * @link http://github.com/andrematias Perfil no GitHub
+ * @link andrersmatias@gmail.com email para contato direto
  *
- *
- *
+ * Queries utilizadas com o banco de dados
+ * 
  * SQL de Criação de taxonomia para um objeto:
  * INSERT INTO tr_term (name) VALUES ([value_for_term]);
  * INSERT INTO tr_taxonomy_term (term_id, taxonomy, [descricao], [count])
@@ -30,33 +34,71 @@ namespace App\Lib;
 
 class Taxonomy extends Observador
 {
+    /**
+     * Tabela de termos
+     * @var string 
+     */
     private $tableTerm = 'tr_term';
 
+    /**
+     * Tabela de taxonomia
+     * @var string 
+     */
     private $tableTaxonomy = 'tr_taxonomy_term';
 
+    /**
+     * Tabela de relação entre taxonomia e objetos
+     * @var string 
+     */
     private $tableRelationships = 'tr_taxonomy_relationships';
 
+    /**
+     * Identificação do termo
+     * @var int
+     */
     private $termId;
 
+    /**
+     * Nome do termo
+     * @var string
+     */
     private $term;
 
+    /**
+     * Identificação da taxonomia
+     * @var string
+     */
     private $taxonomyId;
 
+    /**
+     * Nome da taxonomia
+     * @var string 
+     */
     private $taxonomy;
 
+    /**
+     * Descrição da taxonomia
+     * @var string 
+     */
     private $descricao;
 
+    /**
+     * Quantidade da taxonomia
+     * @var int
+     */
     private $count;
 
-    private $objId;
-
-    private $log;
-
-    //Busca se existir e inclui os dados na classe, se nao cria um novo e atribui a classe
+    
+    /**
+     * Implementação da classe Observador, método para atualizar os dados da 
+     * classe e do banco de dados com as informações recebidas da classe Sujeito
+     * @param \App\Lib\Sujeito $dados classe observada
+     * @return boolean
+     */
     public function atualizar(Sujeito $dados)
     {
-        $taxonomy = $this->findTaxonomyTerm($dados->taxonomy);
-        $term     = $this->findTerm($dados->term);
+        $taxonomy = $this->loadTaxonomyTerm($dados->taxonomy);
+        $term     = $this->loadTerm($dados->term);
 
         $dataReceived = array(
             'taxonomy'  => $dados->taxonomy,
@@ -74,6 +116,19 @@ class Taxonomy extends Observador
 
     }
 
+    /**
+     * Salva uma nova taxonomia atribuida a um objeto
+     * @param array|string $taxonomyInfos
+     * indices do parametro:
+     *  string  name      [obrigatório]
+     *  string  taxonomy  [obrigatório]
+     *  integer object_id [obrigatorio]
+     *  string  descricao [opcional]
+     *  integer count     [opcional]
+     * e.g.: string name=[valorName]&taxonomy=[taxonomyName]&object_id=[number]
+     * e.g.: array associative ['name' => 'ValueTerm', 'taxonomy' => 'ValueTaxonomy']
+     * @return boolean
+     */
     public function newTaxonomy($taxonomyInfos){
 
         $arr = array();
@@ -88,39 +143,40 @@ class Taxonomy extends Observador
 
         $this->descricao = (isset($arr['descricao'])) ? $arr['descricao'] : NULL;
         $this->count     = (isset($arr['count'])) ? $arr['count'] : NULL;
-        $this->taxonomy  = $arr['taxonomy'];
-        $this->objId     = $arr['object_id'];
-        $this->term      = $arr['name'];
 
-        $this->log = parent::salvar($this->tableTerm, ['name' => $this->term]);
 
-        if($this->log){
-            $this->termId = parent::lastId();
-
+        $this->log = $this->loadTerm($arr['name']);
+        if(!isset($this->termId)){
+           parent::salvar($this->tableTerm, ['name' => $arr['name']]);
+           $this->termId = parent::lastId();
+        }
+        
+        $this->loadTaxonomyTerm($arr['taxonomy']);
+        if(!isset($this->taxonomyId)){
             $taxParam = array(
                 'term_id'   => $this->termId,
-                'taxonomy'  => $this->taxonomy,
+                'taxonomy'  => $arr['taxonomy'],
                 'descricao' => $this->descricao,
                 'count'     => $this->count
             );
 
-            $this->log = parent::salvar($this->tableTaxonomy, $taxParam);
-            if($this->log){
-                $this->taxonomyId = parent::lastId();
-                $relParam = array(
-                    'object_id' => $this->objId,
-                    'taxonomy_id' => $this->taxonomyId
-                );
-                $this->log =  parent::salvar($this->tableRelationships, $relParam);
-                
-                return $this->log;
-            }
+            parent::salvar($this->tableTaxonomy, $taxParam);
+            $this->taxonomyId = parent::lastId();
         }
-
-        return false;
+            
+        $relParam = array(
+            'object_id' => $arr['object_id'],
+            'taxonomy_id' => $this->taxonomyId
+        );
+        return parent::salvar($this->tableRelationships, $relParam);                
     }
 
-    private function findTaxonomyTerm($taxonomy)
+    /**
+     * Carrega para a instancia atual os valores da taxonomia gravada no Banco
+     * @param string $taxonomy o nome da taxonomia
+     * @return boolean
+     */
+    private function loadTaxonomyTerm($taxonomy)
     {
         $tax = parent::select(
             $this->tableTaxonomy,
@@ -142,7 +198,12 @@ class Taxonomy extends Observador
         return false;
     }
 
-    private function findTerm($termName)
+    /**
+     * Carrega para a instancia atual os valores do termo cadastrados no banco
+     * @param string $termName o nome do termo procurado
+     * @return boolean
+     */
+    private function loadTerm($termName)
     {
         $term = parent::select(
             $this->tableTerm,
@@ -161,7 +222,13 @@ class Taxonomy extends Observador
         return false;
     }
 
-    public function findObjectTaxonomy($objectId, $objectType)
+    /**
+     * Retorna todas as taxonomias de um objeto
+     * @param int $objectId identificação do objeto
+     * @param string $objectType tipo do objeto que possui a taxonomia
+     * @return array
+     */
+    public function getObjectTaxonomies($objectId, $objectType)
     {
         $prefix = 'tr_';
 
@@ -181,17 +248,6 @@ class Taxonomy extends Observador
             //Where Values
             [':objectId' => $objectId]
         );
-
         return $taxonomies;
-    }
-
-    public function getTerm()
-    {
-        return $this->term;
-    }
-
-    public function test($objectId)
-    {
-        var_dump($this->findTaxonomyTerm($objectId));
     }
 }
