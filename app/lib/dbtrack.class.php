@@ -160,8 +160,9 @@ class DbTrack
     $id, $tableName, Array $parameters
     )
     {
+        $keys = \array_keys($parameters);
         $campos = null;
-        foreach ($parameters as $key => $value) {
+        foreach ($keys as $key) {
             $campos .= $key . ' = :' . $key . ', ';
         }
 
