@@ -14,20 +14,20 @@
  * 
  * SQL de Criação de taxonomia para um objeto:
  * INSERT INTO tr_term (name) VALUES ([value_for_term]);
- * INSERT INTO tr_taxonomy_term (term_id, taxonomy, [descricao], [count])
- *  VALUES ([INT term_id], [VARCHAR(50) taxonomy], [VARCHAR(50) descricao], [INT count]);
- * INSERT INTO tr_taxonomy_relationships (object_id, taxonomy_id)
- *  VALUES ([INT object_id], [INT taxonomy_id]);
+ * INSERT INTO tr_taxonomy (id_term, taxonomy, [descricao], [count])
+ *  VALUES ([INT id_term], [VARCHAR(50) taxonomy], [VARCHAR(50) descricao], [INT count]);
+ * INSERT INTO tr_taxonomy_relationships (object_id, id_taxonomy)
+ *  VALUES ([INT object_id], [INT id_taxonomy]);
  *
  * SQL de busca por taxonomia:
  *  SELECT * FROM [tabela_do_objeto] AS [table_alias]
  *  JOIN tr_taxonomy_relationshipt AS [taxonomy_relationshipt_alias]
  *      ON [taxonomy_relationshipt_alias].object_id = [table_alias].object_id
- *  JOIN tr_taxonomy_term AS [taxonomy_term_alias]
- *      ON [taxonomy_term_alias].taxonomy_id = [taxonomy_relationshipt_alias].taxonomy_id
+ *  JOIN tr_taxonomy AS [taxonomy_term_alias]
+ *      ON [taxonomy_term_alias].id_taxonomy = [taxonomy_relationshipt_alias].id_taxonomy
  *  JOIN tr_term AS [term_alias]
- *      ON [term_alias].term_id = [taxonomy_term_alias].term_id
- *  WHERE [taxonomy_term_alias] = [term_busca]
+ *      ON [term_alias].id_term = [taxonomy_term_alias].id_term
+ *  WHERE [taxonomy_term_alias].taxonomy = [taxonomia]
  *
  */
 namespace App\Lib;
@@ -44,7 +44,7 @@ class Taxonomy extends Observador
      * Tabela de taxonomia
      * @var string 
      */
-    private $tableTaxonomy = 'tr_taxonomy_term';
+    private $tableTaxonomy = 'tr_taxonomy';
 
     /**
      * Tabela de relação entre taxonomia e objetos
@@ -109,7 +109,16 @@ class Taxonomy extends Observador
         );
 
         if($term && $taxonomy){
+            $valuesCompare = array(
+                'taxonomy'  => $this->taxonomy,
+                'name'      => $this->term,
+                'descricao' => $this->descricao,
+                'count'     => $this->count
+            );
 
+            $up = \array_diff($dataReceived, $valuesCompare);
+            return $this->update($this->termId, $this->tableTaxonomy, $up);
+            
         }else{
             return $this->newTaxonomy($dataReceived);
         }
@@ -156,8 +165,8 @@ class Taxonomy extends Observador
             $taxParam = array(
                 'term_id'   => $this->termId,
                 'taxonomy'  => $arr['taxonomy'],
-                'descricao' => $this->descricao,
-                'count'     => $this->count
+                'descricao' => $arr['descricao'],
+                'count'     => $arr['count']
             );
 
             parent::salvar($this->tableTaxonomy, $taxParam);
@@ -189,8 +198,8 @@ class Taxonomy extends Observador
             $this->taxonomy      = $tax['taxonomy'];
             $this->descricao     = $tax['descricao'];
             $this->count         = $tax['count'];
-            $this->termId        = $tax['term_id'];
-            $this->taxonomyId    = $tax['taxonomy_id'];
+            $this->termId        = $tax['id_term'];
+            $this->taxonomyId    = $tax['id_taxonomy'];
             unset($tax);
             return true;
         }
@@ -207,13 +216,13 @@ class Taxonomy extends Observador
     {
         $term = parent::select(
             $this->tableTerm,
-            ['term_id', 'name'],
+            ['id_term', 'name'],
             'WHERE name = :term',
             [':term' => $termName]
         );
 
         if($term){
-            $this->termId = $term['term_id'];
+            $this->termId = $term['id_term'];
             $this->term = $term['name'];
             unset($term);
             return true;
@@ -236,8 +245,8 @@ class Taxonomy extends Observador
             //Tables Join
             $prefix.$objectType.' AS obj'
             . ' JOIN '.$this->tableRelationships.' AS tr ON tr.object_id = obj.id_'.$objectType
-            . ' JOIN '.$this->tableTaxonomy.' AS tt ON tt.taxonomy_id = tr.taxonomy_id'
-            . ' JOIN '.$this->tableTerm.' AS tm ON tm.term_id = tt.term_id',
+            . ' JOIN '.$this->tableTaxonomy.' AS tt ON tt.id_taxonomy = tr.id_taxonomy'
+            . ' JOIN '.$this->tableTerm.' AS tm ON tm.id_term = tt.id_term',
 
             //Columns
             ['taxonomy', 'descricao', 'count', 'name'],
@@ -249,5 +258,32 @@ class Taxonomy extends Observador
             [':objectId' => $objectId]
         );
         return $taxonomies;
+    }
+
+    /**
+     * Altera os dados da taxonomia gravada no Banco de dados relacionado
+     * com a id do termo.
+     * @param int $id Identificação do termo associado a taxonomia
+     * @param array $parameters
+     * @return type
+     */
+    final protected function update($id, $tableName, Array $parameters)
+    {
+        $tax = array();
+
+        $tax['descricao'] = (isset($parameters['descricao'])) ? $parameters['descricao'] : NULL;
+        $tax['count'] = (isset($parameters['count'])) ? $parameters['count'] : NULL;
+        unset($parameters);
+
+        $setValues = null;
+        $keys = \array_keys($tax);
+
+        foreach ($keys as $key) {
+            $setValues .= $key .' = :'.$key.", ";
+        }
+
+        $setValues = \rtrim($setValues, ", ");
+        $tax['id'] = $id;
+        return parent::query('UPDATE '.$tableName.' SET '.$setValues.' WHERE id_term = :id', $tax);
     }
 }
