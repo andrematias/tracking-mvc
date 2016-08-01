@@ -17,9 +17,10 @@ class Debugg
         $tax = new Taxonomy();
         $api = new TrackingAPI();
 
-        $api->taxonomy = 'loctite';
-        $api->term = 'testeTerm';
-        $api->taxonomyDescription = 'vavava';
+        $api->taxonomy = 'ee';
+        $api->term = 'tt';
+        $api->taxonomyDescription = 'ss';
+        $api->taxonomyCount = 12;
         $api->taxonomyObjectId = 47;
 
 
@@ -28,7 +29,7 @@ class Debugg
 //            $tax->findTerm('testeTerm')
 //        );
 
-        $tax->atualizar($api);
+        var_dump($tax->atualizar($api));
 
     }
 }
